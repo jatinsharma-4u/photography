@@ -1352,3 +1352,10 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { box
 }
 /* selected work intro title: a calm size, two lines at most */
 @media (min-width: 900px) { .sw6-intro .title, .sp-intro .title { font-size: clamp(24px, 2.3vw, 36px); line-height: 1.15; } }
+
+/* v370: nav spans the same container as the photographs (left and right edges line up with the images) */
+@media (min-width: 900px) {
+  .header .nav-l, .header .nav-r { margin: 0; }
+  .header .nav-l { justify-self: start; } .header .nav-r { justify-self: end; }
+}
+.header { padding-inline: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
