@@ -1123,3 +1123,21 @@ input:autofill { background: var(--bg) !important; color: var(--ink) !important;
   .cards { margin-top: 4px; }
   .page-head { padding-bottom: 6px; }
 }
+
+/* ================= v210: phone captions centred and smaller ================= */
+@media (max-width: 899px) {
+  .sw6 .tx, .sw6-intro { justify-items: center; text-align: center; }
+  .sw6-intro .title { text-align: center; font-size: 24px; }
+  .sw6-intro p:not(.label) { font-size: 13.5px; line-height: 1.7; }
+  .sw6 h3, .sw6-row .sw6 h3, .sw6.p1 h3 { font-size: 19px; letter-spacing: .1em; }
+  .sw6 .label, .sw6-row .sw6 .label { font-size: 9px; letter-spacing: .2em; }
+  .sw6 .go { font-size: 9.5px; letter-spacing: .2em; }
+  .sw6 { gap: 12px; }
+  .sw6 .tx { gap: 6px; }
+}
+@media (max-width: 639px) {
+  .card .cap { text-align: center; justify-items: center; gap: 6px; }
+  .card .cap b { font-size: 19px; letter-spacing: .1em; }
+  .card .cap span { font-size: 9px; }
+  .card .cap em { font-size: 9.5px; }
+}
