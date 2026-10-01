@@ -1,5 +1,7 @@
 # JourneysByRohit: portfolio website
 
+Design: clean and minimal. Cream background, black text, thin uppercase serif titles (Cormorant Garamond) and Inter for small text. Full-screen video hero with only the name and menu; tight, un-cropped photo galleries. No green, no scroll animations. Inspired by namanverma.com and chitreshmishra.com.
+
 Static site: plain HTML, CSS and JavaScript. No build step.
 
 ## Run it locally
@@ -15,7 +17,7 @@ Then open http://localhost:5173
 | Page | File |
 | --- | --- |
 | Home | `index.html` |
-| Work (filter + search) | `work.html`, project detail: `project.html?p=<slug>` |
+| Work (category filter) | `work.html`, project detail: `project.html?p=<slug>` |
 | Gallery (masonry + filter) | `gallery.html` |
 | Journal (blog) | `blog.html`, article: `post.html?p=<slug>` |
 | About | `about.html` |
