@@ -40,19 +40,20 @@
     var r = knownRatio(src) || fallbackAr;
     return '<div class="' + cls + '" data-ar style="--ar:' + r.toFixed(4) + '">' + (src ? imgTag(src, alt, sizes, eager) : ph(alt)) + "</div>";
   }
-  var meta = function (p) { return [p.location, p.year].filter(Boolean).join(" · "); };
+  var meta = function (p) { return [p.location, p.year].filter(Boolean).join(", "); };
 
   /* ---------- shared chrome ---------- */
   function chrome() {
+    var navLink = function (l) { return '<a href="' + l[1] + '"' + (cur(l[2]) ? ' aria-current="page"' : "") + ">" + l[0] + "</a>"; };
     var cur = function (k) { return k === page || (page === "project" && k === "work") || (page === "post" && k === "blog"); };
     document.body.insertAdjacentHTML("afterbegin",
       '<a class="skip" href="#main">Skip to content</a>' +
-      '<header class="header" id="header"><a class="logo" href="index.html" aria-label="' + S.brand + ' home">' + S.brand + '</a>' +
-      '<nav class="nav" aria-label="Primary">' + links.map(function (l) { return '<a href="' + l[1] + '"' + (cur(l[2]) ? ' aria-current="page"' : "") + ">" + l[0] + "</a>"; }).join("") + "</nav>" +
+      '<header class="header" id="header"><nav class="nav nav-l" aria-label="Primary">' + navLink(links[0]) + navLink(links[1]) + '</nav><a class="logo" href="index.html" aria-label="' + S.brand + ' home">' + S.brand + '</a>' +
+      '<nav class="nav nav-r" aria-label="Secondary">' + navLink(links[2]) + navLink(links[3]) + navLink(links[4]) + "</nav>" +
       '<button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i><i></i></button></header>' +
       '<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu"><nav class="menu-links" aria-label="Mobile">' +
-      links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + "</a>"; }).join("") + '</nav><div class="menu-sub"><a href="https://instagram.com/' + S.instagram + '" target="_blank" rel="noopener">Instagram</a><a href="' + wa() + '" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:' + S.email + '">Email</a></div></div>' +
-      (fine ? '<div class="cursor" id="cursor" aria-hidden="true"><span>View</span></div>' : ""));
+      links.map(function (l, i) { return '<a href="' + l[1] + '" style="--i:' + i + '">' + l[0] + "</a>"; }).join("") + '</nav><div class="menu-sub"><a style="--i:5" href="https://instagram.com/' + S.instagram + '" target="_blank" rel="noopener">Instagram</a><a style="--i:6" href="' + wa() + '" target="_blank" rel="noopener">WhatsApp</a><a style="--i:7" href="mailto:' + S.email + '">Email</a></div></div>' +
+      (fine ? '<div class="cursor" id="cursor" aria-hidden="true"><span><svg class="c-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M3.5 8.5h3.2L8.2 6h7.6l1.5 2.5h3.2a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.4" r="3.6"/></svg><svg class="c-play" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.5v11l9-5.5z"/></svg></span></div>' : ""));
     var main = $("main"); if (main && !main.id) main.id = "main";
     var f = $("#footer");
     if (f) f.outerHTML = '<footer class="footer"><div class="wrap">' +
@@ -127,15 +128,15 @@
   /* ---------- builders ---------- */
   function card(p) {
     return '<a class="card" href="project.html?p=' + p.slug + '" data-cat="' + esc(p.cat) + '" data-cursor="View">' + box("im", p.cover, p.title, 0.8, "(min-width:1000px) 31vw, (min-width:640px) 48vw, 100vw") +
-      '<div class="cap"><b>' + esc(p.title) + "</b><span>" + esc(p.cat) + (meta(p) ? " · " + esc(meta(p)) : "") + "</span></div></a>";
+      '<div class="cap"><b>' + esc(p.title) + "</b><span>" + esc(p.cat) + (meta(p) ? ", " + esc(meta(p)) : "") + "</span></div></a>";
   }
   function fmtDate(d) { return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); }
   function postCard(p) {
     return '<a class="post" href="post.html?p=' + p.slug + '" data-cat="' + esc(p.cat) + '" data-cursor="Read">' + box("im", p.cover, p.title, 1.5) +
-      '<div class="meta">' + esc(p.cat) + " · " + fmtDate(p.date) + "</div><h3>" + esc(p.title) + "</h3><p>" + esc(p.excerpt) + "</p></a>";
+      '<div class="meta">' + esc(p.cat) + ", " + fmtDate(p.date) + "</div><h3>" + esc(p.title) + "</h3><p>" + esc(p.excerpt) + "</p></a>";
   }
   function projectItems(p) {
-    return (p.gallery || []).map(function (s, i, a) { return { src: s, ratio: knownRatio(s) || 1.5, label: p.title, sub: p.cat + (meta(p) ? " · " + meta(p) : ""), href: "project.html?p=" + p.slug, n: (i + 1) + " / " + a.length }; });
+    return (p.gallery || []).map(function (s, i, a) { return { src: s, ratio: knownRatio(s) || 1.5, label: p.title, sub: p.cat + (meta(p) ? ", " + meta(p) : ""), href: "project.html?p=" + p.slug, n: (i + 1) + " / " + a.length }; });
   }
   function galleryItems() {
     var seen = {}, out = [];
@@ -148,37 +149,39 @@
   function bindGallery(grid, all) {
     grid.addEventListener("click", function (e) {
       var b = e.target.closest(".jg"); if (!b) return;
-      var vis = $$(".jg:not(.is-hidden)", grid), items = vis.map(function (el, k) { var g = all[+el.getAttribute("data-i")]; return { src: g.src, ratio: g.r, label: g.title, sub: [g.cat, g.sub].filter(Boolean).join(" · "), href: "project.html?p=" + g.slug, n: (k + 1) + " / " + vis.length }; });
+      var vis = $$(".jg:not(.is-hidden)", grid), items = vis.map(function (el, k) { var g = all[+el.getAttribute("data-i")]; return { src: g.src, ratio: g.r, label: g.title, sub: [g.cat, g.sub].filter(Boolean).join(", "), href: "project.html?p=" + g.slug, n: (k + 1) + " / " + vis.length }; });
       openViewer(items, vis.indexOf(b), b);
     });
   }
 
   /* ---------- pages ---------- */
   function home() {
-    /* selected work: one large story + two smaller, each opens the immersive viewer */
+    /* selected work: one large image at a time, simple arrows, opens the full-screen viewer */
     var sw = $("#selected");
     if (sw) {
-      sw.innerHTML = P.slice(0, 3).map(function (p, i) {
-        return '<a class="swc' + (i === 0 ? " big" : "") + '" href="project.html?p=' + p.slug + '" data-open="' + i + '" data-cursor="View">' + box("im", p.cover, p.title, 0.8, i === 0 ? "(min-width:1000px) 44vw, 100vw" : "(min-width:1000px) 28vw, 100vw") +
-          '<div class="swc-cap"><span class="label">' + esc(p.cat) + (meta(p) ? " · " + esc(meta(p)) : "") + "</span><h3>" + esc(p.title) + "</h3></div></a>";
-      }).join("");
-      sw.addEventListener("click", function (e) {
-        var a = e.target.closest("[data-open]"); if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-        e.preventDefault(); var p = P[+a.getAttribute("data-open")];
-        if (p.films && p.films.length && (!p.gallery || !p.gallery.length)) return openViewer([{ embed: p.films[0].embed, label: p.title }], 0, a);
-        openViewer(projectItems(p), 0, a);
-      });
-    }
-    /* slider */
-    var sl = $("#slider");
-    if (sl && M.slider && M.slider.length) {
-      sl.innerHTML = '<div class="sl-stage" style="--ar:' + (knownRatio(M.slider[0]) || 1.5).toFixed(4) + '">' + M.slider.map(function (s, i) { return imgTag(s, "Wedding photograph " + (i + 1), "(min-width:1100px) 1100px, 100vw", i === 0).replace("<img ", '<img class="sl-img' + (i === 0 ? " on" : "") + '" '); }).join("") + '</div>' +
-        '<button class="sl-btn prev" type="button" aria-label="Previous photograph">' + CHEV_L + '</button><button class="sl-btn next" type="button" aria-label="Next photograph">' + CHEV_R + "</button>";
-      var imgs = $$(".sl-img", sl), cur = 0;
-      var go = function (d) { imgs[cur].classList.remove("on"); cur = (cur + d + imgs.length) % imgs.length; imgs[cur].classList.add("on"); imgs[(cur + 1) % imgs.length].loading = "eager"; };
-      $(".prev", sl).addEventListener("click", function () { go(-1); }); $(".next", sl).addEventListener("click", function () { go(1); });
-      var x0 = null; sl.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-      sl.addEventListener("touchend", function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); x0 = null; });
+      var list = P.slice(0, 3), cur = 0;
+      sw.innerHTML = '<div class="sw2"><div class="sw2-media"><div class="sw2-stage" id="swStage" style="--ar:' + (knownRatio(list[0].cover) || 0.8).toFixed(4) + '"><div class="sw2-frame" data-cursor="View">' +
+        list.map(function (p, i) { return imgTag(p.cover, p.title, "(min-width:1000px) 46vw, 100vw", i === 0).replace("<img ", '<img class="sw2-img' + (i === 0 ? " on" : "") + '" '); }).join("") + '</div>' +
+        '<button class="sw2-btn prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><button class="sw2-btn next" type="button" aria-label="Next story">' + CHEV_R + '</button></div></div>' +
+        '<div class="sw2-info"><p class="label">Selected work</p><h2 class="sw2-title" id="swT"></h2><p class="label" id="swM"></p><p class="sw2-story" id="swS"></p>' +
+        '<div class="sw2-links"><button class="link" type="button" id="swOpen">View gallery</button><a class="link" id="swStory" href="#">Read the story</a></div>' +
+        '<ul class="sw2-list">' + list.map(function (p, i) { return '<li><button type="button" data-i="' + i + '"' + (i === 0 ? ' aria-current="true"' : "") + ">" + esc(p.title) + "</button></li>"; }).join("") + "</ul></div></div>";
+      var imgs = $$(".sw2-img", sw), stage = $("#swStage"), tabsEl = $$(".sw2-list button", sw);
+      var show = function (i) {
+        cur = (i + list.length) % list.length; var p = list[cur];
+        imgs.forEach(function (im, k) { im.classList.toggle("on", k === cur); });
+        tabsEl.forEach(function (b, k) { k === cur ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"); });
+        stage.style.setProperty("--ar", (knownRatio(p.cover) || 0.8).toFixed(4));
+        $("#swT").textContent = p.title; $("#swM").textContent = [p.cat, meta(p)].filter(Boolean).join(", "); $("#swS").textContent = p.story; $("#swStory").href = "project.html?p=" + p.slug;
+        if (imgs[(cur + 1) % imgs.length]) imgs[(cur + 1) % imgs.length].loading = "eager";
+      };
+      var openCur = function () { var p = list[cur]; if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, $(".sw2-frame", sw)); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, $(".sw2-frame", sw)); };
+      $(".prev", sw).addEventListener("click", function () { show(cur - 1); }); $(".next", sw).addEventListener("click", function () { show(cur + 1); });
+      tabsEl.forEach(function (b) { b.addEventListener("click", function () { show(+b.getAttribute("data-i")); }); });
+      $(".sw2-frame", sw).addEventListener("click", openCur); $("#swOpen").addEventListener("click", openCur);
+      var x0 = null; stage.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener("touchend", function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
+      show(0);
     }
     var all = galleryItems(), hg = $("#homeGallery");
     if (hg) { var pick = all.filter(function (g) { return g.slug === P[0].slug; }).slice(0, 12); hg.innerHTML = pick.map(function (g) { return jItem(g, all.indexOf(g)); }).join(""); bindGallery(hg, all); }
@@ -232,7 +235,7 @@
       return "<p>" + esc(b[1]) + "</p>";
     }).join("");
     var rel = POSTS.filter(function (x) { return x.slug !== p.slug; }).sort(function (a, b) { return (b.cat === p.cat) - (a.cat === p.cat); }).slice(0, 3);
-    host.innerHTML = '<header class="page-head wrap"><a class="label" href="blog.html">Journal</a><h1 class="title">' + esc(p.title) + '</h1><p class="label">' + esc(p.cat) + " · " + fmtDate(p.date) + " · " + p.read + ' min read</p></header>' +
+    host.innerHTML = '<header class="page-head wrap"><a class="label" href="blog.html">Journal</a><h1 class="title">' + esc(p.title) + '</h1><p class="label">' + esc(p.cat) + ", " + fmtDate(p.date) + ", " + p.read + ' min read</p></header>' +
       '<div class="wrap">' + box("pj-cover", p.cover, p.title, 1.6, "100vw", true) + "</div>" +
       '<article class="article">' + body + '<div class="share"><span class="label">Share</span><a class="link" href="https://wa.me/?text=' + encodeURIComponent(p.title + " " + location.href) + '" target="_blank" rel="noopener">WhatsApp</a></div></article>' +
       '<section class="wrap sec"><div class="sec-head"><h2 class="title">Keep reading</h2></div><div class="cards">' + rel.map(postCard).join("") + "</div></section>";
@@ -315,7 +318,7 @@
   function showViewer() {
     var it = vItems[vIdx], layers = $$(".vw-img", vw), emb = $("#vwEmbed");
     $("#vwTitle").textContent = it.label || ""; $("#vwSub").textContent = it.sub || "";
-    $("#vwCount").textContent = vItems.length > 1 ? (vIdx + 1 < 10 ? "0" : "") + (vIdx + 1) + " / " + (vItems.length < 10 ? "0" : "") + vItems.length : "";
+    $("#vwCount").textContent = vItems.length > 1 ? (vIdx + 1) + " of " + vItems.length : "";
     var lk = $("#vwLink"); lk.hidden = !it.href; if (it.href) lk.href = it.href;
     $("#vwPrev").hidden = $("#vwNext").hidden = vItems.length < 2;
     if (it.embed !== undefined) {
@@ -346,15 +349,31 @@
   }
   function cursor() {
     var c = $("#cursor"); if (!c) return;
-    document.addEventListener("mousemove", function (e) { c.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)"; });
-    document.addEventListener("mouseover", function (e) { var t = e.target.closest("[data-cursor]"), on = !!t && !vw.classList.contains("open"); c.classList.toggle("on", on); if (on) c.firstChild.textContent = t.getAttribute("data-cursor") || "View"; });
+    var x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+    function loop() { x += (tx - x) * 0.2; y += (ty - y) * 0.2; c.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)"; raf = (Math.abs(tx - x) > 0.2 || Math.abs(ty - y) > 0.2) ? requestAnimationFrame(loop) : 0; }
+    document.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
+    document.addEventListener("mouseover", function (e) {
+      var t = e.target.closest("[data-cursor]"), on = !!t && !vw.classList.contains("open");
+      c.classList.toggle("on", on); c.classList.toggle("play", on && t.getAttribute("data-cursor") === "Play");
+    });
     document.addEventListener("mouseleave", function () { c.classList.remove("on"); });
+  }
+
+  /* ---------- opening: a quiet curtain lifts once per visit ---------- */
+  function entry() {
+    var hero = $(".hero"), seen = false;
+    try { seen = sessionStorage.getItem("jbr-seen") === "1"; sessionStorage.setItem("jbr-seen", "1"); } catch (e) {}
+    if (!hero || seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var el = document.createElement("div"); el.className = "entry"; el.setAttribute("aria-hidden", "true"); el.innerHTML = "<i></i>";
+    document.body.appendChild(el); hero.classList.add("pre"); document.body.style.overflow = "hidden";
+    setTimeout(function () { el.classList.add("go"); hero.classList.remove("pre"); }, 800);
+    setTimeout(function () { el.remove(); document.body.style.overflow = ""; }, 1900);
   }
 
   /* ---------- boot ---------- */
   function boot() {
     if ("scrollRestoration" in history && !location.hash) history.scrollRestoration = "manual";
-    chrome(); buildViewer(); header();
+    entry(); chrome(); buildViewer(); header();
     home(); work(); gallery(); blog(); post(); project(); about(); contact();
     $$("img").forEach(function (i) { if (i.complete && i.naturalWidth) onImg(i); });
     justify(); reveal(); cursor();

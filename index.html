@@ -17,34 +17,32 @@
 <link rel="preload" href="media/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(min-width:721px)" fetchpriority="high">
 <link rel="preload" as="image" href="media/img/hero-poster-m.jpg" media="(max-width:720px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=42">
-<script defer src="js/dims.js?v=42"></script>
-<script defer src="js/data.js?v=42"></script>
-<script defer src="js/main.js?v=42"></script>
+<link rel="stylesheet" href="css/style.css?v=50">
+<script defer src="js/dims.js?v=50"></script>
+<script defer src="js/data.js?v=50"></script>
+<script defer src="js/main.js?v=50"></script>
 </head>
 <body data-page="home" id="top">
 <main>
 
-<section class="hero" aria-label="Wedding film"><span class="hero-line" aria-hidden="true"></span></section>
+<section class="hero" aria-label="Wedding film"><a class="hero-scroll" href="#work" aria-label="Scroll to selected work"></a></section>
 
-<section class="sec wrap intro">
-  <h1 class="title">I don&rsquo;t stage your story. I follow it.</h1>
-  <p class="lead" style="margin-top:24px">A wedding is a thousand small moments: a glance across a crowded room, a hand that won&rsquo;t let go, a laugh that arrives before the vows. What if none of it was ever kept?</p>
-  <p style="margin-top:28px"><a class="link" href="about.html">About Rohit</a></p>
+<section class="sec wrap" id="work">
+  <h1 class="sr">JourneysByRohit, wedding photography and films</h1>
+  <div id="selected"></div>
+  <p class="center" style="margin-top:clamp(40px,5vw,72px)"><a class="link" href="work.html">View all stories</a></p>
 </section>
 
-<section class="sec wrap" id="work" style="padding-top:0">
-  <div class="sec-head"><p class="label">Selected work</p><h2 class="title">Real love stories</h2></div>
-  <div class="sw" id="selected"></div>
-  <p class="center" style="margin-top:clamp(36px,5vw,64px)"><a class="link" href="work.html">View all stories</a></p>
-</section>
-
-<section class="sec wrap" style="padding-top:0">
-  <div class="slider" id="slider"></div>
-  <div class="sl-text">
-    <h2 class="title">Some frames are taken. The best ones are given.</h2>
-    <p>Natural light, real emotion and very little posing. I want you to look back years from now and feel the day again, not just remember what it looked like.</p>
-    <span class="sl-sign">Rohit</span>
+<section class="sec wrap" style="border-top:1px solid var(--line)">
+  <div class="split">
+    <div class="im" data-ar style="--ar:.667"><div data-portrait style="display:contents"></div></div>
+    <div class="copy">
+      <p class="label">About</p>
+      <h2 class="title left">Hi, I&rsquo;m Rohit</h2>
+      <p>I&rsquo;m a wedding photographer and filmmaker, and Journeys by Rohit is where I keep the stories people trust me with.</p>
+      <p>A wedding is a thousand small moments: a glance across a crowded room, a hand that won&rsquo;t let go, a laugh that arrives before the vows. I don&rsquo;t stage your story. I follow it. Natural light, real emotion, very little posing.</p>
+      <a class="link" href="about.html">More about me</a>
+    </div>
   </div>
 </section>
 
@@ -55,8 +53,9 @@
 </section>
 
 <section class="sec wrap" style="padding-top:0">
-  <div class="sec-head"><p class="label">Films</p><h2 class="title">Sid &amp; Aditi</h2></div>
+  <div class="sec-head"><p class="label">Film</p></div>
   <div class="reel" id="reel" role="button" tabindex="0" aria-label="Play the pre-wedding film" data-cursor="Play"></div>
+  <div class="film-cap"><h3>Sid &amp; Aditi</h3><p>A pre-wedding story shot like a short film: walks through old streets, easy laughter and a couple who stopped noticing the camera.</p></div>
 </section>
 
 <section class="sec wrap" style="border-top:1px solid var(--line)">
@@ -65,19 +64,6 @@
     <article><h3>Wedding photography</h3><p>Candid, editorial coverage of the ceremonies, the portraits and everything in between. Delivered as a fully retouched online gallery and a printed album.</p></article>
     <article><h3>Wedding films</h3><p>Cinematic films with real sound: vows, speeches, laughter and music. A teaser, a highlight film and a full-length feature.</p></article>
     <article><h3>Pre-weddings &amp; engagements</h3><p>Destination shoots, engagements and private celebrations, with the same story-first approach.</p></article>
-  </div>
-</section>
-
-<section class="sec wrap" style="border-top:1px solid var(--line)">
-  <div class="split">
-    <div class="im" data-ar style="--ar:.667"><div data-portrait style="display:contents"></div></div>
-    <div class="copy">
-      <p class="label">About</p>
-      <h2 class="title left">Hi, I&rsquo;m Rohit</h2>
-      <p>I&rsquo;m a wedding photographer and filmmaker, and Journeys by Rohit is where I keep the stories people trust me with.</p>
-      <p>I work quietly and honestly. Natural light, real emotion, very little posing. Weddings, pre-weddings and films, wherever your journey takes us.</p>
-      <a class="link" href="about.html">More about me</a>
-    </div>
   </div>
 </section>
 
