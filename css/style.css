@@ -1194,3 +1194,26 @@ p { text-wrap: pretty; }
 :root { --display: "Marcellus", "Bodoni Moda", Georgia, serif; }
 .title, .sw6 h3, .sw5 h3, .svc h3, .story-txt h2, .sc.t h3, .page-head .title, .card .cap b { letter-spacing: .08em; }
 .statement .big { letter-spacing: .01em; line-height: 1.28; }
+
+/* ================= v260: final polish ================= */
+/* text links: one hairline exactly under the letters, a calm draw on hover */
+.link { position: relative; border-bottom: 0 !important; padding-bottom: 9px; transition: none; }
+.link:hover { opacity: 1; }
+.link::after { content: ""; position: absolute; left: 0; right: .22em; bottom: 0; height: 1px; background: currentColor; opacity: .55; transform: scaleX(1); transform-origin: 50% 50%; transition: opacity .4s ease; }
+.link:hover::after { opacity: 1; animation: lineIn .6s cubic-bezier(.22, 1, .36, 1); }
+@keyframes lineIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.pj-back { justify-self: center; }
+
+/* camera cursor: a thin white ring + camera drawn with difference blending, so it reads dark on light and light on dark */
+.cursor { mix-blend-mode: difference; will-change: transform; }
+.cursor span { width: 58px; height: 58px; left: -29px; top: -29px; background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, .9); box-shadow: none; opacity: 0; transform: scale(.55); transition: opacity .3s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
+.cursor.on span { opacity: 1; transform: scale(1); }
+.cursor.on.down span { transform: scale(.88); }
+.cursor svg { width: 22px; height: 22px; stroke-width: 1; }
+@media (hover: none), (pointer: coarse) { .cursor { display: none !important; } }
+
+/* hero film: soft black finish with a barely-there blur, video stays the focus */
+.hero { background: #000; }
+.hero video, .hero img { filter: contrast(1.1) saturate(1.05); }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(0, 0, 0, .26); -webkit-backdrop-filter: blur(1.2px); backdrop-filter: blur(1.2px); pointer-events: none; }
+.hero-scroll { z-index: 2; }

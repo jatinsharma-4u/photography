@@ -394,11 +394,19 @@
   }
   function cursor() {
     var c = $("#cursor"); if (!c) return;
-    document.addEventListener("mousemove", function (e) { c.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)"; });
+    var tx = -100, ty = -100, x = -100, y = -100, raf = 0;
+    var tick = function () {
+      x += (tx - x) * 0.2; y += (ty - y) * 0.2;
+      c.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
+      raf = (Math.abs(tx - x) + Math.abs(ty - y) > 0.3) ? requestAnimationFrame(tick) : 0;
+    };
+    document.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(tick); });
     document.addEventListener("mouseover", function (e) {
-      var t = e.target.closest("[data-cursor]"), native = e.target.closest("video, iframe, .vw, .vw-embed");
+      var t = e.target.closest("[data-cursor]"), native = e.target.closest("video, iframe, .vw, .vw-embed, a:not([data-cursor]), button:not([data-cursor]), input, select, textarea, label");
       c.classList.toggle("on", !!t && !native && !vw.classList.contains("open"));
     });
+    document.addEventListener("mousedown", function () { c.classList.add("down"); });
+    document.addEventListener("mouseup", function () { c.classList.remove("down"); });
     document.addEventListener("mouseleave", function () { c.classList.remove("on"); });
   }
 
