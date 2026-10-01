@@ -1152,3 +1152,33 @@ input:autofill { background: var(--bg) !important; color: var(--ink) !important;
   .js .sw6.rv .im, .js .sc.rv, .js .story-im.rv, .js .card.rv .im { clip-path: inset(0 0 12% 0); transition: clip-path 1.2s cubic-bezier(.22, 1, .36, 1), opacity 1s ease, transform 1s ease; }
   .js .sw6.rv.in .im, .js .sc.rv.in, .js .story-im.rv.in, .js .card.rv.in .im { clip-path: inset(0 0 0 0); }
 }
+
+/* ================= v230: art direction ================= */
+/* hierarchy: quiet labels, readable leads, one rhythm between heading, copy and action */
+.label { letter-spacing: .3em; }
+.lead { max-width: 50ch; margin-inline: auto; line-height: 1.8; }
+.sec-head { gap: 0; }
+.sec-head .title { margin-top: 12px; }
+.sec-head .lead { margin-top: 16px; }
+p { text-wrap: pretty; }
+
+/* a cinematic change of scale and tone for the film */
+.dark-band { --bg: #0d0d0c; --bg-2: #181816; --ink: #f2ede4; --text: #b9b3a8; --mute: #8f897f; background: var(--bg); color: var(--text); }
+.dark-band .sec { padding-block: clamp(64px, 9vw, 130px); }
+.dark-band .reel { background: #000; }
+.dark-band .film-cap { text-align: center; padding-top: 26px; }
+.dark-band .film-cap p { max-width: 46ch; margin-inline: auto; color: var(--text); }
+
+/* selected work: hovering one story quietly steps the others back */
+@media (hover: hover) {
+  .sw6-grid .sw6 { transition: opacity .7s ease; }
+  .sw6-grid:hover .sw6:not(:hover) { opacity: .55; }
+}
+
+/* page transitions */
+@media (prefers-reduced-motion: no-preference) {
+  body { animation: pgIn .7s cubic-bezier(.22, 1, .36, 1) both; }
+  html.leaving body { opacity: 0; transition: opacity .26s ease; }
+}
+@keyframes pgIn { from { opacity: 0; } to { opacity: 1; } }
+.header.solid { box-shadow: none; }

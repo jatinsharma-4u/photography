@@ -446,4 +446,15 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(justify);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
+
+  /* soft page transitions between internal pages */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0 || a.target === "_blank") return;
+    var u = a.getAttribute("href"); if (!u || u.charAt(0) === "#" || /^(mailto:|tel:|https?:|javascript:)/i.test(u)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault(); document.documentElement.classList.add("leaving");
+    setTimeout(function () { window.location.href = u; }, 260);
+  });
+  window.addEventListener("pageshow", function (e) { if (e.persisted) document.documentElement.classList.remove("leaving"); });
 })();
