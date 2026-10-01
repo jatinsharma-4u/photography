@@ -41,6 +41,7 @@
     return '<div class="' + cls + '" data-ar style="--ar:' + r.toFixed(4) + '">' + (src ? imgTag(src, alt, sizes, eager) : ph(alt)) + "</div>";
   }
   var meta = function (p) { return [p.location, p.year].filter(Boolean).join(", "); };
+  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 12h17M14 6l6 6-6 6"/></svg>';
 
   /* ---------- shared chrome ---------- */
   function chrome() {
@@ -173,15 +174,16 @@
 
   /* ---------- pages ---------- */
   function home() {
-    /* selected work: a curated arrangement (large, small, large), every project opens its own page */
+    /* selected work: one grid, three featured stories. Every cover is the same 3:2 landscape, 8 of 12 columns wide;
+       the image alternates between the left and right edge and the text always sits on the image's bottom edge. */
     var sw = $("#selected");
     if (sw) {
-      var list = P.slice(0, 3), cls = ["p1", "p2", "p3"];
-      sw.innerHTML = '<div class="sw4-wrap">' + list.map(function (p, i) {
+      var list = P.slice(0, 3);
+      sw.innerHTML = '<div class="sw5-list">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
-        return '<a class="sw4 ' + cls[i % 3] + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
-          imgTag(src, p.title, i === 1 ? "(min-width:1000px) 34vw, 100vw" : "(min-width:1000px) 64vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') +
-          '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project</span></div></a>';
+        return '<a class="sw5 ' + (i % 2 ? "r" : "l") + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
+          imgTag(src, p.title, "(min-width:1000px) 64vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') +
+          '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
       }).join("") + "</div>";
     }
     /* showcase: what one project feels like before opening it */
@@ -193,7 +195,7 @@
         '<div class="sc t"><p class="label">' + esc([sp.cat, meta(sp)].filter(Boolean).join(", ")) + "</p><h3>" + esc(sp.title) + "</h3><p>" + esc(SH.line) + '</p><a class="link" href="' + href + '">Open the story</a></div>' +
         '<a class="sc c" href="' + href + '" data-cursor="View" aria-hidden="true" tabindex="-1">' + imgTag(SH.c, "", "(min-width:900px) 58vw, 100vw") + "</a></div>";
     }
-    var si = $("#storyImg"); if (si && M.story) si.innerHTML = imgTag(M.story, "A couple against a white wall", "(min-width:900px) 66vw, 100vw");
+    var si = $("#storyImg"); if (si && M.story) si.innerHTML = imgTag(M.story, "Rohit photographing his reflection", "(min-width:900px) 58vw, 100vw").replace("<img ", '<img style="object-position:' + (M.storyPos || "50% 50%") + '" ');
     var fr = $("#frames");
     if (fr && M.frames) {
       var fitems = M.frames.map(function (f) { return { src: f.src, ratio: knownRatio(f.src) || 1.5, label: "Jaidev & Shaily", sub: "Weddings, Delhi", href: "project.html?p=jaidev-and-shaily" }; });

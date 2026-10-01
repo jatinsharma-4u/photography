@@ -221,3 +221,7 @@ window.SHOWCASE = {
   a: I("js-02"), b: I("js-09"), c: I("js-14"),
   line: "Natural light, plain walls and a couple who forgot the camera.",
 };
+
+/* The about photograph is reused as the wide, short image of the home About block and the Contact header */
+window.MEDIA.story = I("about");
+window.MEDIA.storyPos = "50% 30%";
