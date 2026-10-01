@@ -214,3 +214,10 @@ window.SERVICES = [
   { t: "Couple Portraits", d: "Quiet portraits in natural light.", img: I("js-12"), pos: "50% 30%", href: "gallery.html" },
   { t: "Cinematic Films", d: "Story-led films, carefully graded.", img: I("js-06"), pos: "25% 50%", href: "work.html" },
 ];
+
+/* Home: a small editorial preview of one project */
+window.SHOWCASE = {
+  slug: "jaidev-and-shaily",
+  a: I("js-02"), b: I("js-09"), c: I("js-14"),
+  line: "Natural light, plain walls and a couple who forgot the camera.",
+};

@@ -17,10 +17,10 @@
 <link rel="preload" href="media/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(min-width:721px)" fetchpriority="high">
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(max-width:720px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=131">
-<script defer src="js/dims.js?v=131"></script>
-<script defer src="js/data.js?v=131"></script>
-<script defer src="js/main.js?v=131"></script>
+<link rel="stylesheet" href="css/style.css?v=142">
+<script defer src="js/dims.js?v=142"></script>
+<script defer src="js/data.js?v=142"></script>
+<script defer src="js/main.js?v=142"></script>
 </head>
 <body data-page="home" id="top">
 <main>
@@ -29,9 +29,27 @@
 
 <section class="sec wrap wide" id="work">
   <h1 class="sr">JourneysByRohit, wedding photography and films</h1>
-  <div class="sec-head"><p class="label">Selected work</p><h2 class="title">Real love stories</h2></div>
+  <div class="sec-head"><p class="label">Selected work</p><h2 class="title">Real love stories</h2><p class="lead">A few weddings and pre-weddings, told in full.</p></div>
   <div id="selected"></div>
-  <p class="center" style="margin-top:clamp(48px,6vw,90px)"><a class="link" href="work.html">View all stories</a></p>
+  <p class="center" style="margin-top:clamp(44px,6vw,90px)"><a class="link" href="work.html">View all stories</a></p>
+</section>
+
+<section class="sec wrap" style="padding-top:0">
+  <div class="showcase-head"><p class="label">Inside a story</p></div>
+  <div id="showcase"></div>
+</section>
+
+<section class="sec wrap" style="padding-top:0">
+  <div class="sec-head"><p class="label">Gallery</p><h2 class="title">Moments, kept</h2><p class="lead">Frames from a Delhi wedding.</p></div>
+  <div class="jgal" id="homeGallery"></div>
+  <p class="center" style="margin-top:44px"><a class="link" href="gallery.html">View full gallery</a></p>
+</section>
+
+<section class="band">
+  <div class="sec wrap">
+    <div class="sec-head"><p class="label">Services</p><h2 class="title">What I do</h2><p class="lead">One calm team, from the first call to the final delivery.</p></div>
+    <div class="svc-grid" id="services"></div>
+  </div>
 </section>
 
 <section class="sec wrap" id="story">
@@ -40,37 +58,20 @@
     <div class="story-txt">
       <p class="label">About</p>
       <h2>I don&rsquo;t stage your story. I follow it.</h2>
-      <p>Natural light, real emotion, very little posing.</p>
-      <a class="link" href="about.html" style="margin-top:8px">Hi, I&rsquo;m Rohit</a>
+      <p>I&rsquo;m Rohit, a wedding photographer and filmmaker. Natural light, real emotion, very little posing.</p>
+      <a class="link" href="about.html" style="margin-top:8px">More about me</a>
     </div>
   </div>
 </section>
 
 <section class="sec wrap" style="padding-top:0">
-  <div class="sec-head"><p class="label">Gallery</p><h2 class="title">Moments, kept</h2></div>
-  <div class="jgal" id="homeGallery"></div>
-  <p class="center" style="margin-top:44px"><a class="link" href="gallery.html">View full gallery</a></p>
-</section>
-
-<section class="sec wrap">
-  <div class="sec-head"><p class="label">Frames</p><h2 class="title">Told in light</h2></div>
-  <div class="frames" id="frames"></div>
-  <div class="frames-cap"><p>Quiet pictures that carry the rest of the day.</p><a class="link" href="gallery.html">Explore the gallery</a></div>
-</section>
-
-<section class="sec wrap" style="padding-top:0">
-  <div class="sec-head"><p class="label">Services</p><h2 class="title">What I do</h2></div>
-  <div class="svc-grid" id="services"></div>
-</section>
-
-<section class="sec wrap" style="padding-top:0">
   <div class="sec-head"><p class="label">Film</p><h2 class="title">Sid &amp; Aditi</h2></div>
   <div class="reel" id="reel" role="button" tabindex="0" aria-label="Play the pre-wedding film"></div>
-  <div class="film-cap"><p>A pre-wedding story shot like a short film.</p></div>
+  <div class="film-cap"><p>A pre-wedding story shot like a short film: old streets, easy laughter.</p></div>
 </section>
 
 <section class="sec wrap" style="padding-top:0">
-  <div class="sec-head"><p class="label">Notes &amp; stories</p><h2 class="title">Journal</h2></div>
+  <div class="sec-head"><p class="label">Notes &amp; stories</p><h2 class="title">Journal</h2><p class="lead">Short notes on light, planning and film.</p></div>
   <div id="journal"></div>
   <p class="center" style="margin-top:44px"><a class="link" href="blog.html">All articles</a></p>
 </section>
@@ -78,7 +79,7 @@
 <section class="sec wrap cta">
   <p class="label" style="margin-bottom:14px">Enquire</p>
   <h2 class="title">Let&rsquo;s begin your journey</h2>
-  <p class="lead">Tell me about your day.</p>
+  <p class="lead">Tell me about your day and I&rsquo;ll reply personally.</p>
   <p style="margin-top:26px"><a class="btn" href="contact.html">Get in touch</a></p>
 </section>
 </main>
