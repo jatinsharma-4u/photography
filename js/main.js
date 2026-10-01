@@ -265,8 +265,10 @@
     var films = (p.films || []).map(function (f, i) {
       return '<button class="film" type="button" data-film="' + i + '" data-cursor="Play" aria-label="Play ' + esc(f.title) + '">' + (f.poster ? imgTag(f.poster, f.title, "(min-width:800px) 50vw, 100vw") : ph(f.title)) + '<span class="play" aria-hidden="true">' + PLAY + '</span><span class="cap">' + esc(f.title) + "</span></button>";
     }).join("");
-    host.innerHTML = '<div class="wrap" style="padding-top:calc(var(--nav-h) + 16px)">' + box("pj-cover", p.cover, p.title, 1.6, "100vw", true) + "</div>" +
-      '<div class="wrap"><header class="pj-head"><p class="label">' + esc(p.cat) + '</p><h1 class="title">' + esc(p.title) + '</h1><div class="pj-credits">' + (meta(p) ? "<span>" + esc(meta(p)) + "</span>" : "") + '<span><b>Photography</b> ' + esc(p.photo) + '</span><span><b>Videography</b> ' + esc(p.video) + '</span></div><p class="pj-story">' + esc(p.story) + "</p></header>" +
+    var banner = p.wide || p.cover, pos = p.focus || "50% 50%";
+    host.innerHTML = '<div class="wrap pj-intro"><header class="pj-head"><p class="label">' + esc(p.cat) + '</p><h1 class="title">' + esc(p.title) + '</h1><div class="pj-credits">' + (meta(p) ? "<span>" + esc(meta(p)) + "</span>" : "") + '<span><b>Photography</b> ' + esc(p.photo) + '</span><span><b>Videography</b> ' + esc(p.video) + '</span></div></header></div>' +
+      '<div class="wrap"><div class="pj-cover pj-banner" data-cursor="View">' + (banner ? imgTag(banner, p.title, "100vw", true).replace("<img ", '<img style="object-position:' + pos + '" ') : ph(p.title)) + '</div></div>' +
+      '<div class="wrap"><p class="pj-story">' + esc(p.story) + '</p>' +
       '<div class="jgal" id="gallery">' + gal + "</div></div>" +
       (films ? '<section class="wrap sec"><div class="sec-head"><h2 class="title">Film</h2></div><div class="films">' + films + "</div></section>" : "") +
       '<a class="next-story" href="project.html?p=' + next.slug + '"><span class="label">Next story</span><div class="title">' + esc(next.title) + "</div></a>";
