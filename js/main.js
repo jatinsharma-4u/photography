@@ -160,16 +160,24 @@
     var sw = $("#selected");
     if (sw) {
       var list = P.slice(0, 3), cur = 0;
-      sw.innerHTML = '<div class="swc"><button class="swc-btn prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><div class="swc-track">' + list.map(function (p, i) {
+      sw.innerHTML = '<div class="swc"><button class="swc-btn is-prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><div class="swc-track">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
         return '<article class="swc-card' + (i === 0 ? " on" : "") + '" aria-label="' + esc(p.title) + '"><button class="swc-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + ' gallery">' +
           '<picture>' + (p.cover ? '<source media="(max-width:699px)" srcset="' + esc((/^media\/img\/([\w-]+\.jpg)$/.exec(p.cover) ? "media/img/w600/" + /^media\/img\/([\w-]+\.jpg)$/.exec(p.cover)[1] + " 600w, media/img/w1000/" + /^media\/img\/([\w-]+\.jpg)$/.exec(p.cover)[1] + " 1000w" : p.cover)) + '" sizes="34vw">' : "") + imgTag(src, p.title, "(min-width:1000px) 44vw, (min-width:700px) 80vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</picture></button>' +
           '<div class="swc-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
           '<div class="swc-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
-      }).join("") + '</div><button class="swc-btn next" type="button" aria-label="Next story">' + CHEV_R + '</button></div>';
-      var cards = $$(".swc-card", sw);
-      var show = function (i) { cur = (i + list.length) % list.length; cards.forEach(function (c, k) { c.classList.toggle("on", k === cur); c.setAttribute("aria-hidden", k === cur ? "false" : "true"); }); var im = cards[cur].querySelector("img"); if (im) im.loading = "eager"; };
-      $(".prev", sw).addEventListener("click", function () { show(cur - 1); }); $(".next", sw).addEventListener("click", function () { show(cur + 1); });
+      }).join("") + '</div><div class="swc-marks" role="tablist" aria-label="Choose a story">' + list.map(function (p, i) { return '<button type="button" role="tab" data-m="' + i + '" aria-label="' + esc(p.title) + '"' + (i === 0 ? ' aria-selected="true"' : "") + "></button>"; }).join("") + '</div><button class="swc-btn is-next" type="button" aria-label="Next story">' + CHEV_R + '</button></div>';
+      var cards = $$(".swc-card", sw), marks = $$(".swc-marks button", sw), last = Date.now();
+      var show = function (i) { cur = (i + list.length) % list.length; last = Date.now(); cards.forEach(function (c, k) { c.classList.toggle("on", k === cur); c.setAttribute("aria-hidden", k === cur ? "false" : "true"); }); marks.forEach(function (m, k) { m.setAttribute("aria-selected", String(k === cur)); }); var nx = cards[(cur + 1) % cards.length].querySelector("img"); if (nx) nx.loading = "eager"; };
+      $(".is-prev", sw).addEventListener("click", function () { show(cur - 1); }); $(".is-next", sw).addEventListener("click", function () { show(cur + 1); });
+      marks.forEach(function (m) { m.addEventListener("click", function () { show(+m.getAttribute("data-m")); }); });
+      /* changes by itself every few seconds; pauses while someone is looking at it, and never runs for reduced-motion */
+      var held = false, inSight = function () { var r = sw.getBoundingClientRect(); return r.bottom > 80 && r.top < window.innerHeight * 0.7; };
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        sw.addEventListener("mouseenter", function () { held = true; }); sw.addEventListener("mouseleave", function () { held = false; last = Date.now(); });
+        sw.addEventListener("focusin", function () { held = true; }); sw.addEventListener("focusout", function () { held = false; last = Date.now(); });
+        setInterval(function () { if (!held && inSight() && !document.hidden && window.innerWidth >= 700 && !vw.classList.contains("open") && Date.now() - last >= 6500) show(cur + 1); }, 800);
+      }
       sw.addEventListener("click", function (e) {
         var b = e.target.closest("button[data-i]"); if (!b) return;
         var p = list[+b.getAttribute("data-i")];
@@ -256,7 +264,7 @@
       '<div class="wrap"><header class="pj-head"><p class="label">' + esc(p.cat) + '</p><h1 class="title">' + esc(p.title) + '</h1><div class="pj-credits">' + (meta(p) ? "<span>" + esc(meta(p)) + "</span>" : "") + '<span><b>Photography</b> ' + esc(p.photo) + '</span><span><b>Videography</b> ' + esc(p.video) + '</span></div><p class="pj-story">' + esc(p.story) + "</p></header>" +
       '<div class="jgal" id="gallery">' + gal + "</div></div>" +
       (films ? '<section class="wrap sec"><div class="sec-head"><h2 class="title">Film</h2></div><div class="films">' + films + "</div></section>" : "") +
-      '<a class="next" href="project.html?p=' + next.slug + '"><span class="label">Next story</span><div class="title">' + esc(next.title) + "</div></a>";
+      '<a class="next-story" href="project.html?p=' + next.slug + '"><span class="label">Next story</span><div class="title">' + esc(next.title) + "</div></a>";
     host.addEventListener("click", function (e) {
       var g = e.target.closest(".jg"); if (g) return openViewer(items.map(function (it) { return Object.assign({}, it, { href: "" }); }), +g.getAttribute("data-i"), g);
       var c = e.target.closest(".pj-cover"); if (c && items.length) return openViewer(items.map(function (it) { return Object.assign({}, it, { href: "" }); }), 0, c);

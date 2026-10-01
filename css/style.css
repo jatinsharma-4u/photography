@@ -165,8 +165,8 @@ img.ld, html:not(.js) img { opacity: 1; }
 .film { position: relative; display: block; width: 100%; aspect-ratio: 16/9; background: var(--bg-2); overflow: hidden; }
 .film video, .film .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .film .cap { position: absolute; left: 14px; bottom: 12px; color: #fff; font: 500 10px var(--sans); letter-spacing: .2em; text-transform: uppercase; }
-.next { display: block; text-align: center; padding-block: clamp(50px, 8vw, 100px); border-top: 1px solid var(--line); }
-.next .title { margin-top: 12px; }
+.next-story { display: block; text-align: center; padding-block: clamp(50px, 8vw, 100px); border-top: 1px solid var(--line); }
+.next-story .title { margin-top: 12px; }
 
 /* ---------- article ---------- */
 .article { max-width: 680px; margin: 0 auto; padding: clamp(36px, 6vw, 70px) var(--gutter); }
@@ -577,3 +577,22 @@ html.entering .header { opacity: 0; pointer-events: none; }
 .award-in { max-width: 46%; }
 .award-in b { font-size: 13px; letter-spacing: .06em; }
 .award-in span { font-size: 8.5px; letter-spacing: .16em; }
+
+
+/* ================= v90: selected work, larger and cleaner ================= */
+.wrap.wide { max-width: 1600px; }
+.swc { padding-inline: clamp(60px, 5.5vw, 92px); }
+.swc-btn { width: 52px; height: 52px; border: 1px solid rgba(26,26,26,.28); background: transparent; }
+.swc-btn svg { width: 20px; height: 20px; }
+.swc-btn.is-prev { left: 0; right: auto; } .swc-btn.is-next { right: 0; left: auto; }
+@media (min-width: 1000px) {
+  .swc-card { grid-template-columns: minmax(0, 13fr) minmax(0, 7fr); }
+  .swc-txt { padding: clamp(32px, 4.4vw, 80px); gap: 18px; }
+  .swc-txt h3 { font-size: clamp(32px, 3.4vw, 54px); }
+  .swc-txt p:not(.label) { font-size: 15.5px; max-width: 34ch; }
+}
+.swc-marks { display: flex; justify-content: center; gap: 10px; margin-top: 26px; }
+.swc-marks button { width: 34px; height: 24px; position: relative; }
+.swc-marks button::after { content: ""; position: absolute; left: 0; right: 0; top: 11px; height: 1px; background: rgba(26,26,26,.25); transition: background .3s, height .3s, top .3s; }
+.swc-marks button[aria-selected="true"]::after { background: var(--ink); height: 2px; top: 10px; }
+@media (max-width: 699px) { .swc-marks { display: none; } }
