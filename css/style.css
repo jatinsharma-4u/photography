@@ -1090,3 +1090,23 @@ input:autofill { background: var(--bg) !important; color: var(--ink) !important;
   .contact-page .contact-min .title, .contact-page .contact-min .lead { text-align: left; }
 }
 .sw6-intro .title { text-align: left; }
+
+/* ================= v190: phone compositions ================= */
+@media (max-width: 899px) {
+  /* selected work, phone: one story per row, full width, title beneath (journal-style list) */
+  .sw6-grid { row-gap: 0; }
+  .sw6-top, .sw6-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .sw6-top { margin-bottom: 30px; }
+  .sw6-row + .sw6-row { margin-top: 30px; }
+  .sw6-row .sw6, .sw6-top .sw6 { flex: none; width: 100%; }
+  .sw6 { gap: 14px; }
+  .sw6 .tx { gap: 8px; }
+  .sw6 h3, .sw6-row .sw6 h3, .sw6.p1 h3 { font-size: 24px; letter-spacing: .08em; }
+  .sw6 .label, .sw6-row .sw6 .label { font-size: 10px; letter-spacing: .2em; }
+  .sw6 .go { font-size: 10.5px; letter-spacing: .22em; }
+  .sw6-intro { gap: 12px; }
+  /* about, phone: a wide top-pinned frame (face stays in), then copy */
+  .story-grid { gap: 22px; }
+  .story-im { width: 100% !important; max-width: none; margin: 0; aspect-ratio: 4 / 3 !important; }
+  .story-txt { gap: 12px; }
+}
