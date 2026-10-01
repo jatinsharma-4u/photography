@@ -100,7 +100,8 @@
         row.forEach(function (it) { var r = +it.getAttribute("data-r"); it.style.width = Math.floor(r * h) + "px"; it.style.height = Math.round(h) + "px"; });
         row = []; sum = 0;
       }
-      $$(".jg:not(.is-hidden)", c).forEach(function (it) { var r = +it.getAttribute("data-r"); row.push(it); sum += r; if (sum * H + gap * (row.length - 1) >= W) flush(false); });
+      if (c.id === "homeGallery" && vw < 700) return;
+      $$(".jg:not(.is-hidden)", c).filter(function (it) { return it.offsetParent !== null; }).forEach(function (it) { var r = +it.getAttribute("data-r"); row.push(it); sum += r; if (sum * H + gap * (row.length - 1) >= W) flush(false); });
       if (row.length) flush(true);
     });
   }
@@ -162,7 +163,7 @@
       sw.innerHTML = '<div class="swc"><button class="swc-btn prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><div class="swc-track">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
         return '<article class="swc-card' + (i === 0 ? " on" : "") + '" aria-label="' + esc(p.title) + '"><button class="swc-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + ' gallery">' +
-          imgTag(src, p.title, "(min-width:1000px) 44vw, (min-width:700px) 80vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</button>' +
+          '<picture>' + (p.cover ? '<source media="(max-width:699px)" srcset="' + esc((/^media\/img\/([\w-]+\.jpg)$/.exec(p.cover) ? "media/img/w600/" + /^media\/img\/([\w-]+\.jpg)$/.exec(p.cover)[1] + " 600w, media/img/w1000/" + /^media\/img\/([\w-]+\.jpg)$/.exec(p.cover)[1] + " 1000w" : p.cover)) + '" sizes="34vw">' : "") + imgTag(src, p.title, "(min-width:1000px) 44vw, (min-width:700px) 80vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</picture></button>' +
           '<div class="swc-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
           '<div class="swc-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
       }).join("") + '</div><button class="swc-btn next" type="button" aria-label="Next story">' + CHEV_R + '</button></div>';
@@ -179,7 +180,7 @@
       cards.forEach(function (c, k) { if (k) c.setAttribute("aria-hidden", "true"); });
     }
     var all = galleryItems(), hg = $("#homeGallery");
-    if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g) { return jItem(g, all.indexOf(g)); }).join(""); bindGallery(hg, all); }
+    if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g, k) { return jItem(g, all.indexOf(g)).replace('class="jg"', 'class="jg' + (k >= 10 ? ' m-only' : '') + '"'); }).join(""); bindGallery(hg, all); }
     var jr = $("#journal"); if (jr) jr.innerHTML = POSTS.slice(0, 3).map(postCard).join("");
     $$("[data-portrait]").forEach(function (el) { el.innerHTML = M.portrait ? imgTag(M.portrait, "Rohit photographing his reflection", "(min-width:860px) 40vw, 90vw") : ph("Portrait"); var b = el.closest("[data-ar]"); if (b) b.style.setProperty("--ar", (knownRatio(M.portrait) || 0.8).toFixed(4)); });
     var rl = $("#reel");
@@ -265,6 +266,13 @@
   function about() {
     $$("[data-portrait]").forEach(function (el) { el.innerHTML = M.portrait ? imgTag(M.portrait, "Rohit photographing his reflection", "(min-width:860px) 40vw, 90vw") : ph("Portrait"); var b = el.closest("[data-ar]"); if (b) b.style.setProperty("--ar", (knownRatio(M.portrait) || 0.8).toFixed(4)); });
     var b = $("#bts"); if (b) b.innerHTML = M.bts.map(function (s, i) { return box("im", s, "Photograph " + (i + 1), 0.8, "(min-width:800px) 25vw, 50vw"); }).join("");
+    var aw = $("#awards");
+    if (aw && window.AWARDS && window.AWARDS.length) {
+      var leaf = function (side) { var out = ""; for (var k = 0; k < 9; k++) { var t = k / 8, y = 78 - t * 62, x = 40 - Math.sin(t * 1.5) * 20 - t * 6, rot = -40 + t * 70; out += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="3.2" ry="7" transform="rotate(' + rot.toFixed(0) + " " + x.toFixed(1) + " " + y.toFixed(1) + ')"/>'; } return '<g transform="' + (side ? "translate(100 0) scale(-1 1)" : "") + '">' + out + "</g>"; };
+      aw.innerHTML = window.AWARDS.map(function (a) {
+        return '<div class="award"><svg viewBox="0 0 100 100" aria-hidden="true" fill="currentColor">' + leaf(0) + leaf(1) + '</svg><div class="award-in"><span>Winner</span><b>' + esc(a.title) + "</b><span>" + esc(a.by) + "</span><span>" + esc(a.year) + "</span></div></div>";
+      }).join("");
+    } else if (aw) { aw.closest("section").hidden = true; }
     var n = $("#stats"); if (n) n.innerHTML = window.NUMBERS.map(function (x) { return "<div><b>" + x.n + x.suffix + "</b><span>" + x.label + "</span></div>"; }).join("");
   }
   function contact() {
@@ -364,7 +372,7 @@
     var fromSite = false;
     try { fromSite = document.referrer && new URL(document.referrer).origin === location.origin && (performance.getEntriesByType("navigation")[0] || {}).type !== "reload"; } catch (e) {}
     if (fromSite || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-    var ops = [0.62, 0.3, 0.74, 0.4, 0.55, 0.28, 0.66, 0.2, 0.7, 0.34, 0.58, 0.3, 0.76, 0.46, 0.36];
+    var ops = [0.4, 0.14, 0.5, 0.22, 0.36, 0.12, 0.44, 0.08, 0.46, 0.18, 0.38, 0.14, 0.5, 0.28, 0.2];
     var tiles = (M.entryTiles || []).map(function (src, i) { var m = /^media\/img\/([\w-]+\.jpg)$/.exec(src); return '<span style="background-image:url(' + (m ? "media/img/w600/" + m[1] : src) + ');opacity:' + ops[i % ops.length] + '"></span>'; }).join("");
     var el = document.createElement("section"); el.className = "enter"; el.id = "enter"; el.setAttribute("aria-label", "Welcome");
     el.innerHTML = '<div class="enter-tiles" aria-hidden="true">' + tiles + '</div><div class="enter-core"><p class="enter-name">' + esc(S.brand) + '</p><button class="enter-btn" type="button">Enter</button></div>';

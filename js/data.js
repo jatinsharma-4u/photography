@@ -34,7 +34,7 @@ window.MEDIA = {
   portrait: I("about"),
   /* landscape (3:2) frames for the home slider */
   /* hand-picked order for the home gallery */
-  homeGallery: [I("js-02"), I("js-12"), I("js-01"), I("js-06"), I("js-18"), I("js-14"), I("js-19"), I("js-10"), I("js-15"), I("js-08")],
+  homeGallery: [I("js-02"), I("js-12"), I("js-01"), I("js-06"), I("js-18"), I("js-14"), I("js-19"), I("js-10"), I("js-15"), I("js-08"), I("js-04"), I("js-09"), I("js-13"), I("js-16"), I("js-20"), I("js-21")],
   /* tiles of the opening screen */
   entryTiles: [I("js-04"), I("ra-01"), I("js-12"), I("film-card"), I("js-01"), I("js-09"), I("js-10"), I("js-15"), I("js-19"), I("ra-03"), I("js-20"), I("js-03"), I("js-07"), I("js-02"), I("js-14")],
   heroStart: 4,                 // seconds trimmed from the start of the hero video
@@ -187,3 +187,11 @@ window.POSTS = [
 
 /* Tabs are built from the data: only categories that have items are shown. */
 window.POST_CATS = ["All", "Wedding Stories", "Photography", "Filmmaking", "Planning Guides", "Behind the Scenes"];
+
+/* Recognition shown on the About page.
+   TODO(client): SAMPLE entries. Replace with the real awards and features (title, awarding body, year) or delete the list to hide the section. */
+window.AWARDS = [
+  { title: "Wedding Photographer of the Year", by: "Awarding body", year: "2024" },
+  { title: "Best Wedding Film", by: "Awarding body", year: "2023" },
+  { title: "Featured Storyteller", by: "Publication", year: "2022" },
+];
