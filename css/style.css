@@ -903,3 +903,32 @@ html.entering .header { opacity: 0; pointer-events: none; }
 
 /* v152: any image that is cropped is pinned top-centre so heads are never cut */
 .sw5 .im img, .sc img, .svc .im img, .pj-banner img, .contact-banner img, .story-im img, .card .im img, .jfeat img, .jside img { object-position: 50% 0 !important; }
+
+/* ================= v153: finishing polish ================= */
+.sec { padding-block: clamp(72px, 10vw, 150px); }
+.label { letter-spacing: .32em; font-size: 10.5px; color: var(--mute); }
+.title { font-weight: 300; letter-spacing: .09em; line-height: 1.08; font-size: clamp(30px, 4.2vw, 64px); }
+.head-row .title { margin-top: 14px; }
+
+/* quiet, slow image hover: scale from the top so heads stay in frame */
+.sw5 .im img, .sc img, .svc .im img, .card .im img { transform-origin: 50% 0; transition: transform 1.6s cubic-bezier(.22, 1, .36, 1), opacity .6s ease; will-change: transform; }
+@media (hover: hover) {
+  .sw5:hover .im img, .sc:hover img, .svc:hover .im img, .card:hover .im img { transform: scale(1.035); opacity: 1; }
+}
+
+/* links: thin underline that draws in */
+.link, .sw5 .go { position: relative; }
+.link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: currentColor; transform-origin: left; transform: scaleX(.35); transition: transform .6s cubic-bezier(.22, 1, .36, 1); }
+.link:hover::after { transform: scaleX(1); }
+.link { border-bottom: 0 !important; }
+
+/* featured story text: title larger, metadata quieter, a gentle gap before the action */
+.sw5 .tx { gap: 12px; }
+.sw5 h3 { font-size: clamp(28px, 3.2vw, 50px); letter-spacing: .09em; }
+.sw5 .label { margin: 0; }
+.sw5 .go { margin-top: 10px; }
+
+/* softer reveal */
+.rv { transition-duration: 1.1s; }
+
+::selection { background: var(--ink); color: var(--bg); }
