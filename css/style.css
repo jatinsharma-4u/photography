@@ -1188,3 +1188,9 @@ p { text-wrap: pretty; }
 :root { --display: "Bodoni Moda", "Italiana", "Cormorant Garamond", Georgia, serif; }
 .title, .sw6 h3, .sw5 h3, .svc h3, .story-txt h2, .sc.t h3, .page-head .title, .card .cap b, .statement .big { letter-spacing: .05em; }
 .statement .big { letter-spacing: 0; font-weight: 400; }
+
+/* v250: display face is Marcellus (classical, calm, very readable at small sizes) */
+@font-face { font-family: "Marcellus"; font-style: normal; font-weight: 400; font-display: swap; src: url("../media/fonts/marcellus.woff2") format("woff2"); }
+:root { --display: "Marcellus", "Bodoni Moda", Georgia, serif; }
+.title, .sw6 h3, .sw5 h3, .svc h3, .story-txt h2, .sc.t h3, .page-head .title, .card .cap b { letter-spacing: .08em; }
+.statement .big { letter-spacing: .01em; line-height: 1.28; }
