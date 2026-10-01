@@ -384,7 +384,7 @@
 
   /* ---------- gentle reveal + cursor ---------- */
   function reveal() {
-    var sel = ".sec-head, .card, .post, .swc, .slider, .sl-text, .reel, .film, .split, .cols3 article, .stats > div, .bts .im, .pj-head, .pj-cover, .page-head > *, .cta > *";
+    var sel = ".sec-head, .sw6, .sc, .story-im, .statement > *, .card, .post, .swc, .slider, .sl-text, .reel, .film, .split, .cols3 article, .stats > div, .bts .im, .pj-head, .pj-cover, .page-head > *, .cta > *";
     var els = $$(sel); if (!("IntersectionObserver" in window)) return;
     els.forEach(function (el) { el.classList.add("rv"); var sib = el.parentNode ? Array.prototype.indexOf.call(el.parentNode.children, el) : 0; el.style.setProperty("--d", (sib % 4) * 70 + "ms"); });
     var pending = new Set(els);

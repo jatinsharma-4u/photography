@@ -1141,3 +1141,14 @@ input:autofill { background: var(--bg) !important; color: var(--ink) !important;
   .card .cap span { font-size: 9px; }
   .card .cap em { font-size: 9.5px; }
 }
+
+/* ================= v220: typographic moment, softer image reveals ================= */
+.statement { display: grid; justify-items: center; gap: 18px; text-align: center; padding-block: clamp(56px, 9vw, 130px); }
+.statement .big { max-width: 26ch; font: 400 clamp(24px, 3.6vw, 52px)/1.22 var(--display); letter-spacing: .03em; color: var(--ink); text-wrap: balance; }
+@media (max-width: 720px) { .statement { padding-block: 48px; gap: 14px; } .statement .big { font-size: 24px; max-width: 22ch; } }
+
+/* photographs unveil upward instead of fading */
+@media (prefers-reduced-motion: no-preference) {
+  .js .sw6.rv .im, .js .sc.rv, .js .story-im.rv, .js .card.rv .im { clip-path: inset(0 0 12% 0); transition: clip-path 1.2s cubic-bezier(.22, 1, .36, 1), opacity 1s ease, transform 1s ease; }
+  .js .sw6.rv.in .im, .js .sc.rv.in, .js .story-im.rv.in, .js .card.rv.in .im { clip-path: inset(0 0 0 0); }
+}
