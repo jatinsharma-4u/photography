@@ -239,3 +239,14 @@ window.SHOWCASE = {
 /* The about photograph is reused as the wide, short image of the home About block and the Contact header */
 window.MEDIA.story = I("about");
 window.MEDIA.storyPos = "50% 30%";
+
+/* Team: PLACEHOLDER people. Replace names, copy and `img` (portrait 4:5, face in the upper half) with the real team.
+   While `img` is empty a quiet tonal frame with initials is shown. */
+window.TEAM = [
+  { name: "Aarav Mehta", role: "Lead Photographer", img: "", spec: "Candids, family portraits",
+    bio: "Rohit's second shooter at every wedding. Aarav works the room quietly and finds the frames in the corners: grandparents, cousins and the tears just before the vows." },
+  { name: "Kabir Sethi", role: "Cinematographer", img: "", spec: "Wedding films, aerials",
+    bio: "Shapes the film. Slow, handheld and led by sound, Kabir plans every wedding like a short story, so the edit has a beginning, a middle and an ending you can feel." },
+  { name: "Ishita Rao", role: "Videographer & Editor", img: "", spec: "Highlight reels, colour",
+    bio: "Catches the in-between moments on video and cuts the highlight reel. Ishita keeps every edit close to the real sound of the day." }
+];

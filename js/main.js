@@ -382,9 +382,19 @@
   function closeViewer() { vw.classList.remove("open"); $("#vwEmbed").innerHTML = ""; document.body.style.overflow = ""; if (vOpener && vOpener.focus) vOpener.focus(); }
   function stepViewer(d) { vIdx = (vIdx + d + vItems.length) % vItems.length; showViewer(); }
 
+  /* ---------- team: an editorial zig-zag, each portrait a different size ---------- */
+  function team() {
+    var host = $("#team"); if (!host || !window.TEAM) return;
+    host.innerHTML = window.TEAM.slice(0, 3).map(function (m, i) {
+      var ini = m.name.split(/\s+/).map(function (w) { return w.charAt(0); }).join("").slice(0, 2);
+      var im = m.img ? imgTag(m.img, m.name, "(min-width:900px) 34vw, 78vw") : '<span class="tm-ph" aria-hidden="true">' + esc(ini) + "</span>";
+      return '<article class="tm t' + (i + 1) + '"><div class="tm-im">' + im + '</div><div class="tm-tx"><p class="label">' + esc(m.role) + "</p><h3>" + esc(m.name) + "</h3><p>" + esc(m.bio) + '</p><p class="spec">' + esc(m.spec) + "</p></div></article>";
+    }).join("");
+  }
+
   /* ---------- gentle reveal + cursor ---------- */
   function reveal() {
-    var sel = ".sec-head, .sw6, .sc, .story-im, .statement > *, .card, .post, .swc, .slider, .sl-text, .reel, .film, .split, .cols3 article, .stats > div, .bts .im, .pj-head, .pj-cover, .page-head > *, .cta > *";
+    var sel = ".sec-head, .tm, .sw6, .sc, .story-im, .statement > *, .card, .post, .swc, .slider, .sl-text, .reel, .film, .split, .cols3 article, .stats > div, .bts .im, .pj-head, .pj-cover, .page-head > *, .cta > *";
     var els = $$(sel); if (!("IntersectionObserver" in window)) return;
     els.forEach(function (el) { el.classList.add("rv"); var sib = el.parentNode ? Array.prototype.indexOf.call(el.parentNode.children, el) : 0; el.style.setProperty("--d", (sib % 4) * 70 + "ms"); });
     var pending = new Set(els);
@@ -445,7 +455,7 @@
   function boot() {
     if ("scrollRestoration" in history && !location.hash) history.scrollRestoration = "manual";
     chrome(); buildViewer(); entry(); header();
-    home(); work(); gallery(); blog(); post(); project(); about(); contact();
+    home(); team(); work(); gallery(); blog(); post(); project(); about(); contact();
     $$("img").forEach(function (i) { if (i.complete && i.naturalWidth) onImg(i); });
     justify(); reveal(); cursor();
     [1500, 4000, 9000].forEach(function (ms) { setTimeout(function () { $$("img:not(.ld)").forEach(function (i) { if (i.complete && i.naturalWidth) onImg(i); }); }, ms); });

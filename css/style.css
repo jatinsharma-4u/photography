@@ -1230,3 +1230,27 @@ p { text-wrap: pretty; }
 /* hero: untouched source video, a flat black veil for depth, no blur */
 .hero video, .hero img { filter: none; }
 .hero::before { background: rgba(0, 0, 0, .34); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* ================= v280: team ================= */
+.team { display: grid; row-gap: clamp(44px, 6vw, 96px); }
+.tm { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 18px; align-items: end; }
+.tm-im { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-2); }
+.tm-im img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+.tm-ph { position: absolute; inset: 0; display: grid; place-items: center; font: 400 clamp(54px, 9vw, 120px)/1 var(--display); letter-spacing: .08em; color: rgba(26, 26, 26, .28); background: #e4ded4; }
+.tm-tx { display: grid; gap: 10px; justify-items: start; }
+.tm-tx h3 { font: 400 clamp(24px, 2.8vw, 40px)/1.1 var(--display); letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+.tm-tx p:not(.label):not(.spec) { max-width: 44ch; font-size: 14.5px; line-height: 1.75; }
+.tm-tx .spec { font: 500 10px/1.5 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--mute); margin-top: 4px; }
+/* phone: three different widths and sides give the column its own rhythm; text lines up with its portrait */
+.tm .tm-im, .tm .tm-tx { grid-column: 1 / -1; }
+.tm.t1 .tm-im { grid-column: 1 / span 9; } .tm.t1 .tm-tx { grid-column: 1 / -1; }
+.tm.t2 .tm-im { grid-column: 5 / span 8; } .tm.t2 .tm-tx { grid-column: 5 / -1; }
+.tm.t3 .tm-im { grid-column: 1 / span 7; } .tm.t3 .tm-tx { grid-column: 1 / -1; }
+@media (min-width: 900px) {
+  .tm { row-gap: 0; }
+  .tm .tm-im, .tm .tm-tx { grid-row: 1; }
+  .tm.t1 .tm-im { grid-column: 1 / span 5; }  .tm.t1 .tm-tx { grid-column: 7 / span 5; padding-bottom: 6px; }
+  .tm.t2 .tm-im { grid-column: 8 / span 4; }  .tm.t2 .tm-tx { grid-column: 2 / span 5; padding-bottom: 6px; justify-items: start; }
+  .tm.t3 .tm-im { grid-column: 2 / span 3; }  .tm.t3 .tm-tx { grid-column: 6 / span 5; padding-bottom: 6px; }
+  .tm-tx { gap: 14px; }
+}
