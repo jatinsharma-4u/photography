@@ -226,7 +226,7 @@
   }
   function heroVideo() {
     var hero = $(".hero"); if (!hero) return;
-    var src = innerWidth < 720 && M.heroVideoMobile ? M.heroVideoMobile : M.heroVideo, poster = innerWidth < 720 && M.heroPosterMobile ? M.heroPosterMobile : M.heroPoster, START = M.heroStart || 0;
+    var lite = navigator.connection && (navigator.connection.saveData || /(^|-)2g$/.test(navigator.connection.effectiveType || "")), src = lite && M.heroVideoMobile ? M.heroVideoMobile : M.heroVideo, poster = innerWidth < 720 && M.heroPosterMobile ? M.heroPosterMobile : M.heroPoster, START = M.heroStart || 0;
     if (poster) hero.insertAdjacentHTML("afterbegin", '<img src="' + esc(poster) + '" alt="" fetchpriority="high">');
     if (!src) return;
     var v = document.createElement("video");

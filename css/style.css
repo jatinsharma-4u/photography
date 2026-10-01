@@ -1217,3 +1217,16 @@ p { text-wrap: pretty; }
 .hero video, .hero img { filter: contrast(1.1) saturate(1.05); }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(0, 0, 0, .26); -webkit-backdrop-filter: blur(1.2px); backdrop-filter: blur(1.2px); pointer-events: none; }
 .hero-scroll { z-index: 2; }
+
+/* ================= v270: calmer interaction, sharper darker hero ================= */
+/* neighbours are never dimmed; only the photograph under the pointer moves, very slightly */
+@media (hover: hover) {
+  .sw6-grid:hover .sw6:not(:hover) { opacity: 1; }
+  .sw6-grid .sw6 { transition: none; }
+  .sw5:hover .im img, .sc:hover img, .svc:hover .im img, .card:hover .im img, .sw6:hover .im img { opacity: 1; transform: scale(1.025); }
+}
+.sw5:hover .im img { opacity: 1; }
+
+/* hero: untouched source video, a flat black veil for depth, no blur */
+.hero video, .hero img { filter: none; }
+.hero::before { background: rgba(0, 0, 0, .34); -webkit-backdrop-filter: none; backdrop-filter: none; }
