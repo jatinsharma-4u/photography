@@ -18,11 +18,11 @@
 <link rel="preload" href="media/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(min-width:721px)" fetchpriority="high">
 <link rel="preload" as="image" href="media/img/hero-poster-m.jpg" media="(max-width:720px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=26">
-<script defer src="js/lenis.min.js?v=26"></script>
-<script defer src="js/dims.js?v=26"></script>
-<script defer src="js/data.js?v=26"></script>
-<script defer src="js/main.js?v=26"></script>
+<link rel="stylesheet" href="css/style.css?v=29">
+<script defer src="js/lenis.min.js?v=29"></script>
+<script defer src="js/dims.js?v=29"></script>
+<script defer src="js/data.js?v=29"></script>
+<script defer src="js/main.js?v=29"></script>
 </head>
 <body data-page="home" id="top">
 <main>
@@ -47,7 +47,7 @@
         <h2 class="display h-lg" id="fw" data-split>Selected <em>work</em></h2>
         <p class="lead" data-fade style="max-width:34ch">A few recent weddings, pre-weddings and films, each told in full.</p>
       </div>
-      <div class="sw-list" id="featured"></div>
+      <div id="featured"></div>
       <div class="center-cta"><a class="btn" href="work.html" data-fade>View all work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a></div>
     </div>
   </section>
@@ -112,7 +112,7 @@
   <!-- CINEMATIC SHOWCASE -->
   <section class="showcase" data-theme="dark" aria-labelledby="sc">
     <div class="wrap showcase-head"><p class="eyebrow" data-fade style="margin-bottom:22px;color:rgba(245,243,239,.6)">The showreel</p><h2 class="display h-lg" id="sc" data-split>Moving <em>pictures</em>, <br>still moments.</h2></div>
-    <div class="reel media" data-reveal>
+    <div class="reel media no-px" id="reel">
       <div class="inner" id="reelInner"><div class="ph t6" role="img" aria-label="Showreel preview"><span>Showreel</span></div></div>
       <div class="reel-ui"><button class="play" id="showreel" type="button" data-cursor="" aria-label="Play showreel"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Play</span></button></div>
     </div>
