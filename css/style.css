@@ -473,3 +473,74 @@ html.entering .header { opacity: 0; pointer-events: none; }
   .sw3.r .sw3-txt { text-align: left; }
 }
 .sec-head { margin-bottom: clamp(34px, 5vw, 64px); }
+
+
+/* ================= v70 ================= */
+/* header: name left on phones/tablets, centred on desktop */
+@media (max-width: 899px) {
+  .header { grid-template-columns: 1fr auto; }
+  .logo { grid-column: 1; text-align: left; justify-self: start; }
+  .burger { grid-column: 2; }
+}
+
+/* hero scroll hint, written */
+.hero-scroll { height: 96px; width: 80px; }
+.hero-scroll::before, .hero-scroll::after { bottom: 14px; }
+.hero-scroll span { position: absolute; left: 50%; top: 0; translate: -50% 0; font: 500 10px/1 var(--sans); letter-spacing: .34em; text-indent: .34em; text-transform: uppercase; color: rgba(255,255,255,.85); text-shadow: 0 0 14px rgba(0,0,0,.4); }
+.hero-scroll::before { height: 44px; }
+
+/* enter screen: logo face, tiles carry their own transparency */
+.enter-tiles { opacity: 1; }
+.enter::after { background: rgba(8,8,8,.26); }
+.enter-name { font: 600 clamp(20px, 2.6vw, 32px)/1.1 var(--sans); letter-spacing: .05em; text-indent: 0; text-shadow: 0 0 22px rgba(0,0,0,.5); }
+.enter-core { gap: 30px; }
+
+/* selected work: one complete card */
+.swc { position: relative; padding-inline: clamp(56px, 6vw, 92px); }
+.swc-track { display: grid; }
+.swc-card { grid-area: 1 / 1; display: grid; background: var(--bg-2); opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s .5s; }
+.swc-card.on { opacity: 1; visibility: visible; transition: opacity .5s ease; }
+.swc-im { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; padding: 0; cursor: pointer; background: #d9d3c9; }
+.swc-im img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .45s ease; }
+.swc-im:hover img { opacity: .9; }
+.swc-txt { display: grid; gap: 14px; justify-items: start; align-content: center; padding: clamp(26px, 4vw, 64px); }
+.swc-txt h3 { font: 300 clamp(28px, 3vw, 44px)/1.1 var(--serif); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+.swc-txt p:not(.label) { max-width: 36ch; }
+.swc-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 8px; }
+.swc-links button.link { cursor: pointer; }
+.swc-btn { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 46px; height: 64px; display: grid; place-items: center; color: var(--ink); border: 1px solid var(--line); transition: background .25s, color .25s, border-color .25s; }
+.swc-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.swc-btn svg { width: 22px; height: 22px; }
+.swc-btn.prev { left: 0; } .swc-btn.next { right: 0; }
+@media (min-width: 1000px) { .swc-card { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+/* phones: simple list, one card after another, no buttons */
+@media (max-width: 699px) {
+  .swc { padding-inline: 0; }
+  .swc-btn { display: none; }
+  .swc-track { display: grid; gap: 36px; }
+  .swc-card { grid-area: auto; opacity: 1; visibility: visible; }
+  .swc-txt { padding: 24px 22px 28px; }
+}
+
+/* footer: just the essentials */
+.footer { text-align: center; background: var(--bg-2); padding: clamp(44px, 6vw, 76px) 0 24px; }
+.footer .wrap { display: grid; gap: 22px; justify-items: center; }
+.f-mark { font: 600 clamp(18px, 2vw, 24px)/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
+.f-nav, .f-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 30px; }
+.footer .f-nav a { font: 500 11px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--ink); padding: 6px 0; }
+.footer .f-contact a { font-size: 14px; color: var(--text); padding: 2px 0; display: inline-block; }
+.f-bot { width: 100%; margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--mute); }
+.f-top, .f-mid, .f-quote { display: none; }
+
+/* contact: image first */
+.contact-banner { padding-top: calc(var(--nav-h) + 8px); }
+.contact-banner .frame { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-2); }
+.contact-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }
+@media (min-width: 700px) { .contact-banner .frame { aspect-ratio: 21 / 8; } }
+.contact-banner + .page-head { padding-top: clamp(34px, 5vw, 64px); }
+
+/* legible on any frame of the video: the header and scroll hint invert against what is behind them */
+.header.on-hero { mix-blend-mode: difference; color: #fff; }
+.header.on-hero .logo, .header.on-hero .nav a, .header.on-hero .burger { text-shadow: none; }
+.hero-scroll { mix-blend-mode: difference; }
+.hero-scroll span { text-shadow: none; color: #fff; }

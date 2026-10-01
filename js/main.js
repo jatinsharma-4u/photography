@@ -57,11 +57,9 @@
     var main = $("main"); if (main && !main.id) main.id = "main";
     var f = $("#footer");
     if (f) f.outerHTML = '<footer class="footer"><div class="wrap">' +
-      '<div class="f-top"><p class="f-quote">' + esc(S.tagline) + '</p><a class="f-mark" href="index.html" aria-label="' + S.brand + '">Journeys <i>by</i> Rohit</a>' +
-      '<nav class="f-nav" aria-label="Footer">' + links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + "</a>"; }).join("") + "</nav></div>" +
-      '<div class="f-mid"><div><h4>Contact</h4><a href="mailto:' + S.email + '">' + S.email + '</a><a href="tel:' + tel + '">' + S.phone + '</a></div>' +
-      '<div><h4>Follow</h4><a href="https://instagram.com/' + S.instagram + '" target="_blank" rel="noopener">@' + S.instagram + '</a><a href="' + wa() + '" target="_blank" rel="noopener">WhatsApp</a>' + (S.vimeo ? '<a href="' + S.vimeo + '" target="_blank" rel="noopener">Vimeo</a>' : "") + "</div>" +
-      '<div><h4>Studio</h4><p>' + esc(S.base) + "</p></div></div>" +
+      '<a class="f-mark" href="index.html" aria-label="' + S.brand + '">' + S.brand + '</a>' +
+      '<nav class="f-nav" aria-label="Footer">' + links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + "</a>"; }).join("") + "</nav>" +
+      '<div class="f-contact"><a href="mailto:' + S.email + '">' + S.email + '</a><a href="https://instagram.com/' + S.instagram + '" target="_blank" rel="noopener">@' + S.instagram + "</a></div>" +
       '<div class="f-bot"><span>© ' + new Date().getFullYear() + " " + S.brand + '</span><a href="#top">Back to top</a></div></div></footer>';
   }
 
@@ -156,22 +154,29 @@
 
   /* ---------- pages ---------- */
   function home() {
-    /* selected work: large landscape works (fixed 3:2, object-fit cover), text alternating around the image */
+    /* selected work: each story is one complete card (landscape image + text). Desktop/tablet show one card with
+       buttons outside left and right; on phones the cards simply follow one another. */
     var sw = $("#selected");
     if (sw) {
-      var list = P.slice(0, 3), layout = ["l", "r", "l"];
-      sw.innerHTML = list.map(function (p, i) {
+      var list = P.slice(0, 3), cur = 0;
+      sw.innerHTML = '<div class="swc"><button class="swc-btn prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><div class="swc-track">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
-        return '<article class="sw3 ' + layout[i % 3] + '"><button class="sw3-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + '">' +
-          imgTag(src, p.title, "(min-width:1000px) 62vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</button>' +
-          '<div class="sw3-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
-          '<div class="sw3-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
-      }).join("");
+        return '<article class="swc-card' + (i === 0 ? " on" : "") + '" aria-label="' + esc(p.title) + '"><button class="swc-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + ' gallery">' +
+          imgTag(src, p.title, "(min-width:1000px) 44vw, (min-width:700px) 80vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</button>' +
+          '<div class="swc-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
+          '<div class="swc-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
+      }).join("") + '</div><button class="swc-btn next" type="button" aria-label="Next story">' + CHEV_R + '</button></div>';
+      var cards = $$(".swc-card", sw);
+      var show = function (i) { cur = (i + list.length) % list.length; cards.forEach(function (c, k) { c.classList.toggle("on", k === cur); c.setAttribute("aria-hidden", k === cur ? "false" : "true"); }); var im = cards[cur].querySelector("img"); if (im) im.loading = "eager"; };
+      $(".prev", sw).addEventListener("click", function () { show(cur - 1); }); $(".next", sw).addEventListener("click", function () { show(cur + 1); });
       sw.addEventListener("click", function (e) {
         var b = e.target.closest("button[data-i]"); if (!b) return;
-        var p = list[+b.getAttribute("data-i")], opener = b.classList.contains("sw3-im") ? b : b;
-        if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, opener); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, opener);
+        var p = list[+b.getAttribute("data-i")];
+        if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, b); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, b);
       });
+      var x0 = null; sw.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      sw.addEventListener("touchend", function (e) { if (x0 === null || window.innerWidth < 700) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
+      cards.forEach(function (c, k) { if (k) c.setAttribute("aria-hidden", "true"); });
     }
     var all = galleryItems(), hg = $("#homeGallery");
     if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g) { return jItem(g, all.indexOf(g)); }).join(""); bindGallery(hg, all); }
@@ -359,7 +364,8 @@
     var fromSite = false;
     try { fromSite = document.referrer && new URL(document.referrer).origin === location.origin && (performance.getEntriesByType("navigation")[0] || {}).type !== "reload"; } catch (e) {}
     if (fromSite || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-    var tiles = (M.entryTiles || []).map(function (src) { var m = /^media\/img\/([\w-]+\.jpg)$/.exec(src); return '<span style="background-image:url(' + (m ? "media/img/w600/" + m[1] : src) + ')"></span>'; }).join("");
+    var ops = [0.62, 0.3, 0.74, 0.4, 0.55, 0.28, 0.66, 0.2, 0.7, 0.34, 0.58, 0.3, 0.76, 0.46, 0.36];
+    var tiles = (M.entryTiles || []).map(function (src, i) { var m = /^media\/img\/([\w-]+\.jpg)$/.exec(src); return '<span style="background-image:url(' + (m ? "media/img/w600/" + m[1] : src) + ');opacity:' + ops[i % ops.length] + '"></span>'; }).join("");
     var el = document.createElement("section"); el.className = "enter"; el.id = "enter"; el.setAttribute("aria-label", "Welcome");
     el.innerHTML = '<div class="enter-tiles" aria-hidden="true">' + tiles + '</div><div class="enter-core"><p class="enter-name">' + esc(S.brand) + '</p><button class="enter-btn" type="button">Enter</button></div>';
     document.body.insertBefore(el, $("main"));
