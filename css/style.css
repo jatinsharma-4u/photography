@@ -898,12 +898,8 @@ html.entering .header { opacity: 0; pointer-events: none; }
   .story-txt { grid-column: 9 / span 4; }
 }
 
-/* services: aligned rows on desktop */
-@media (min-width: 900px) {
-  .svc:nth-child(4n + 2), .svc:nth-child(4n + 4) { margin-top: 0; }
-}
-
 /* contact header image: wide and short, on the page container */
 .contact-banner .frame { aspect-ratio: 16 / 9; }
-@media (min-width: 700px) { .contact-banner .frame { aspect-ratio: 21 / 8; } }
-.contact-banner img { object-position: 50% 32%; }
+
+/* v152: any image that is cropped is pinned top-centre so heads are never cut */
+.sw5 .im img, .sc img, .svc .im img, .pj-banner img, .contact-banner img, .story-im img, .card .im img, .jfeat img, .jside img { object-position: 50% 0 !important; }

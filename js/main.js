@@ -182,7 +182,7 @@
       sw.innerHTML = '<div class="sw5-list">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
         return '<a class="sw5 ' + (i % 2 ? "r" : "l") + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
-          imgTag(src, p.title, "(min-width:1000px) 64vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') +
+          imgTag(src, p.title, "(min-width:1000px) 64vw, 100vw", i === 0) +
           '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
       }).join("") + "</div>";
     }
@@ -195,7 +195,7 @@
         '<div class="sc t"><p class="label">' + esc([sp.cat, meta(sp)].filter(Boolean).join(", ")) + "</p><h3>" + esc(sp.title) + "</h3><p>" + esc(SH.line) + '</p><a class="link" href="' + href + '">Open the story</a></div>' +
         '<a class="sc c" href="' + href + '" data-cursor="View" aria-hidden="true" tabindex="-1">' + imgTag(SH.c, "", "(min-width:900px) 58vw, 100vw") + "</a></div>";
     }
-    var si = $("#storyImg"); if (si && M.story) si.innerHTML = imgTag(M.story, "Rohit photographing his reflection", "(min-width:900px) 58vw, 100vw").replace("<img ", '<img style="object-position:' + (M.storyPos || "50% 50%") + '" ');
+    var si = $("#storyImg"); if (si && M.story) si.innerHTML = imgTag(M.story, "Rohit photographing his reflection", "(min-width:900px) 58vw, 100vw");
     var fr = $("#frames");
     if (fr && M.frames) {
       var fitems = M.frames.map(function (f) { return { src: f.src, ratio: knownRatio(f.src) || 1.5, label: "Jaidev & Shaily", sub: "Weddings, Delhi", href: "project.html?p=jaidev-and-shaily" }; });
@@ -282,7 +282,7 @@
     var banner = p.wide || p.cover, pos = p.focus || "50% 50%";
     var noHref = function (it) { return Object.assign({}, it, { href: "" }); };
     host.innerHTML = '<div class="wrap pj-intro"><header class="pj-head"><p class="label">' + esc(p.cat) + '</p><h1 class="title">' + esc(p.title) + '</h1><div class="pj-credits">' + (meta(p) ? "<span>" + esc(meta(p)) + "</span>" : "") + '<span><b>Photography</b> ' + esc(p.photo) + '</span><span><b>Videography</b> ' + esc(p.video) + '</span></div></header></div>' +
-      '<div class="wrap"><div class="pj-cover pj-banner" data-cursor="View">' + (banner ? imgTag(banner, p.title, "100vw", true).replace("<img ", '<img style="object-position:' + pos + '" ') : ph(p.title)) + '</div></div>' +
+      '<div class="wrap"><div class="pj-cover pj-banner" data-cursor="View">' + (banner ? imgTag(banner, p.title, "100vw", true) : ph(p.title)) + '</div></div>' +
       '<div class="wrap"><p class="pj-story">' + esc(p.story) + '</p></div>' +
       (films ? '<section class="wrap pj-sec"><div class="sec-head"><p class="label">Film</p></div><div class="films">' + films + "</div></section>" : "") +
       '<section class="wrap pj-sec"><div class="sec-head"><p class="label">Photography</p></div><div class="jgal" id="gallery" data-exhibit>' + gal + "</div></section>" +
