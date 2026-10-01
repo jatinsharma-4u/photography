@@ -4,6 +4,7 @@
 
 @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 300 600; font-display: swap; src: url("../media/fonts/cormorant.woff2") format("woff2"); }
 @font-face { font-family: "Italiana"; font-style: normal; font-weight: 400; font-display: swap; src: url("../media/fonts/italiana.woff2") format("woff2"); }
+@font-face { font-family: "Bodoni Moda"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("../media/fonts/bodoni.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("../media/fonts/inter.woff2") format("woff2"); }
 
 :root {
@@ -1182,3 +1183,8 @@ p { text-wrap: pretty; }
 }
 @keyframes pgIn { from { opacity: 0; } to { opacity: 1; } }
 .header.solid { box-shadow: none; }
+
+/* v240: display face is Bodoni Moda (high-contrast fashion editorial); Italiana stays as fallback */
+:root { --display: "Bodoni Moda", "Italiana", "Cormorant Garamond", Georgia, serif; }
+.title, .sw6 h3, .sw5 h3, .svc h3, .story-txt h2, .sc.t h3, .page-head .title, .card .cap b, .statement .big { letter-spacing: .05em; }
+.statement .big { letter-spacing: 0; font-weight: 400; }
