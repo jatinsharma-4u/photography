@@ -145,8 +145,8 @@
 
   /* ---------- builders ---------- */
   function card(p) {
-    return '<a class="card" href="project.html?p=' + p.slug + '" data-cat="' + esc(p.cat) + '" data-cursor="View">' + box("im", p.cover, p.title, 0.8, "(min-width:1000px) 31vw, (min-width:640px) 48vw, 100vw") +
-      '<div class="cap"><b>' + esc(p.title) + "</b><span>" + esc(p.cat) + (meta(p) ? ", " + esc(meta(p)) : "") + "</span></div></a>";
+    return '<a class="card" href="project.html?p=' + p.slug + '" data-cat="' + esc(p.cat) + '" data-cursor="View">' + box("im", p.card || p.cover, p.title, 0.8, "(min-width:1000px) 31vw, (min-width:640px) 48vw, 100vw") +
+      '<div class="cap"><b>' + esc(p.title) + "</b><span>" + esc(p.cat) + (meta(p) ? ", " + esc(meta(p)) : "") + "</span><em>View project " + ARROW + "</em></div></a>";
   }
   function fmtDate(d) { return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); }
   function postCard(p) {
