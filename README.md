@@ -33,18 +33,18 @@ Everything editable lives in **`js/data.js`**:
 - `NUMBERS`: the counters on Home and About.
 - `POSTS`: Journal articles (`body` blocks: `p`, `h`, `q`, `img`).
 
-## Replace the stock media
+## Photos, videos and Cloudinary
 
-The photos and videos currently in `media/` are free-licence stock files from Pexels, used as stand-ins. Replace them with Rohit's own work:
+The photos and videos in `media/` are the client's own files (taken from journeysbyrohit.vercel.app): `media/img` (JPG, plus `w600/` and `w1000/` smaller copies used for responsive loading) and `media/video` (`hero.mp4`, `hero-mobile.mp4`, `sid-aditi.mp4`).
 
-1. Put new files in `media/` and change the paths in `js/data.js`.
-2. Photos: export about 1600px wide JPG. For fast loading also add 600px and 1000px copies in `media/img/w600/` and `media/img/w1000/` (same file name). Images without those copies still work, just load slower.
-3. Hero video: keep it under about 6 MB (1080p, muted, 10 to 15 seconds, H.264). Add a portrait cut for mobile in `heroVideoMobile`, and a poster image in `heroPoster` / `heroPosterMobile`.
-4. After changing CSS/JS, bump the `?v=` number in the HTML files so visitors don't see a cached copy.
+To add a new couple, add the photos to `media/img`, then add an entry to `PROJECTS` in `js/data.js`. For the `w600`/`w1000` copies and the `DIMS` file (`js/dims.js`, image sizes) re-run any small script that resizes the images; without them images still work, only slightly slower.
+
+**Cloudinary (optional):** set `SITE.cloudinary.cloud` in `js/data.js`. With `mode: "fetch"` and `siteUrl` set to the live site address, Cloudinary pulls the images automatically (auto format, auto quality, exact widths). With `mode: "upload"`, upload the files from `media/img` to a Cloudinary folder and set `folder`. Leave `cloud` empty to serve the local files.
+
+After changing CSS/JS, bump the `?v=` number in the HTML files so visitors don't see a cached copy.
 
 ## Placeholders still to replace
 
 - Phone, WhatsApp, email, Instagram (`SITE`)
 - Numbers (150+ weddings and so on) and the About timeline
-- The eight sample couples and their stories, and the seven Journal articles
-- The portrait photo (currently a stock photographer)
+- Year/location of each story, and the seven sample Journal articles
