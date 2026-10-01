@@ -94,14 +94,20 @@
   function justify() {
     $$(".jgal").forEach(function (c) {
       var W = c.clientWidth; if (!W) return;
-      var vw = window.innerWidth, gap = vw < 700 ? 2 : 3, H = vw < 700 ? (c.id === "homeGallery" ? 150 : 230) : vw < 1100 ? 320 : 400, row = [], sum = 0;
-      function flush(last) {
-        var avail = W - gap * (row.length - 1), h = (last && sum * H + gap * (row.length - 1) < W * 0.5) ? H : avail / sum;
-        row.forEach(function (it) { var r = +it.getAttribute("data-r"); it.style.width = Math.floor(r * h) + "px"; it.style.height = Math.round(h) + "px"; });
-        row = []; sum = 0;
-      }
-      $$(".jg:not(.is-hidden)", c).filter(function (it) { return it.offsetParent !== null; }).forEach(function (it) { var r = +it.getAttribute("data-r"); row.push(it); sum += r; if (sum * H + gap * (row.length - 1) >= W) flush(false); });
-      if (row.length) flush(true);
+      var vw = window.innerWidth, gap = vw < 700 ? 2 : 3, H = vw < 700 ? (c.id === "homeGallery" ? 150 : 230) : vw < 1100 ? 320 : 400;
+      var items = $$(".jg", c);
+      items.forEach(function (it) { c.appendChild(it); });                       // flatten
+      $$(".jrow", c).forEach(function (r) { r.remove(); });
+      var vis = items.filter(function (it) { return !it.classList.contains("is-hidden") && window.getComputedStyle(it).display !== "none"; });
+      var rows = [], row = [], sum = 0;
+      vis.forEach(function (it) { var r = +it.getAttribute("data-r"); row.push(it); sum += r; if (sum * H + gap * (row.length - 1) >= W) { rows.push({ items: row, sum: sum, last: false }); row = []; sum = 0; } });
+      if (row.length) rows.push({ items: row, sum: sum, last: true });
+      rows.forEach(function (R) {
+        var n = R.items.length, avail = W - gap * (n - 1) - 1, h = (R.last && R.sum * H + gap * (n - 1) < W * 0.5) ? H : avail / R.sum;
+        var el = document.createElement("div"); el.className = "jrow"; el.style.cssText = "display:flex;flex-wrap:nowrap;align-items:flex-start;gap:" + gap + "px;margin-bottom:" + gap + "px";
+        R.items.forEach(function (it) { var r = +it.getAttribute("data-r"); it.style.width = Math.floor(r * h) + "px"; it.style.height = Math.round(h) + "px"; el.appendChild(it); });
+        c.appendChild(el);
+      });
     });
   }
 
@@ -188,7 +194,7 @@
     }
     var all = galleryItems(), hg = $("#homeGallery");
     if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g, k) { return jItem(g, all.indexOf(g), k).replace('class="jg"', 'class="jg' + (k >= 10 ? ' m-only' : '') + '"'); }).join(""); bindGallery(hg, all); }
-    var jr = $("#journal"); if (jr) jr.innerHTML = POSTS.slice(0, 3).map(postCard).join("");
+    var jr = $("#journal"); if (jr) { var jp = POSTS.slice(0, 3); jr.innerHTML = '<div class="jfeat">' + postCard(jp[0]) + '<div class="jside">' + jp.slice(1).map(postCard).join("") + "</div></div>"; jr.classList.remove("cards"); }
     $$("[data-portrait]").forEach(function (el) { el.innerHTML = M.portrait ? imgTag(M.portrait, "Rohit photographing his reflection", "(min-width:860px) 40vw, 90vw") : ph("Portrait"); var b = el.closest("[data-ar]"); if (b) b.style.setProperty("--ar", (knownRatio(M.portrait) || 0.8).toFixed(4)); });
     var rl = $("#reel");
     if (rl) {

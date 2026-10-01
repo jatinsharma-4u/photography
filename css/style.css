@@ -610,3 +610,34 @@ html.entering .header { opacity: 0; pointer-events: none; }
 .jgal { gap: 2px; }
 @media (min-width: 700px) { .jgal { gap: 3px; } }
 .bts { gap: 3px; }
+
+
+/* ================= v110: flat editorial finish ================= */
+.jgal { display: block; }
+.jrow:last-child { margin-bottom: 0 !important; }
+.jg { flex: none; }
+.cursor span { box-shadow: none; }
+
+/* journal on the home page: one large story, two quiet ones */
+.jfeat { display: grid; gap: clamp(30px, 4vw, 56px); align-items: start; }
+.jfeat .post { margin-bottom: 0; }
+.jside { display: grid; gap: clamp(30px, 4vw, 56px); }
+@media (min-width: 900px) {
+  .jfeat { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(48px, 6vw, 96px); }
+  .jfeat > .post .im { aspect-ratio: 3 / 2 !important; }
+  .jfeat > .post .im img { object-fit: cover; }
+  .jfeat > .post h3 { font-size: clamp(28px, 2.8vw, 38px); }
+  .jside .post { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 20px; align-items: start; }
+  .jside .post .im { aspect-ratio: 4 / 3 !important; }
+  .jside .post .meta { margin-top: 0; }
+  .jside .post p { display: none; }
+}
+
+/* about: a pull-quote between the portrait and the text */
+.split .copy .title { font-size: clamp(30px, 3.4vw, 46px); }
+.split .copy p { max-width: 46ch; }
+
+/* quiet section rhythm */
+.sec-head .title { font-size: clamp(24px, 3vw, 38px); }
+.link { letter-spacing: .24em; }
+.title { letter-spacing: .1em; }
