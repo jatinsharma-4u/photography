@@ -3,6 +3,7 @@
    References: namanverma.com (palette, typography, tight galleries), chitreshmishra.com (video hero, navigation). */
 
 @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 300 600; font-display: swap; src: url("../media/fonts/cormorant.woff2") format("woff2"); }
+@font-face { font-family: "Italiana"; font-style: normal; font-weight: 400; font-display: swap; src: url("../media/fonts/italiana.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 400 600; font-display: swap; src: url("../media/fonts/inter.woff2") format("woff2"); }
 
 :root {
@@ -1019,3 +1020,73 @@ html.entering .header { opacity: 0; pointer-events: none; }
 .film-cap { padding-top: 22px; }
 .sec-head { margin-bottom: clamp(36px, 5vw, 64px); }
 .sec-head .lead { margin-top: 14px; }
+
+
+/* ================= v180: tight editorial composition, display type, contact, forms ================= */
+:root { --display: "Italiana", "Cormorant Garamond", Georgia, serif; --tg: 8px; }
+.title, .sw6 h3, .sw5 h3, .svc h3, .story-txt h2, .sc.t h3, .page-head .title { font-family: var(--display); font-weight: 400 !important; letter-spacing: .07em; }
+.title { line-height: 1.12; }
+
+/* selected work: photographs sit close, on one shared gap; captions follow each photo */
+.sw6-grid { display: grid; grid-template-columns: none; row-gap: 26px; column-gap: 0; }
+.sw6-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.sw6-row { display: flex; gap: var(--tg); align-items: flex-start; }
+.sw6-row .sw6 { flex: var(--r) 1 0; min-width: 0; grid-column: auto !important; grid-row: auto !important; align-self: auto; }
+.sw6-top .sw6 { grid-column: auto !important; grid-row: auto !important; }
+.sw6 { gap: 12px; }
+.sw6 .tx { gap: 6px; }
+.sw6-row .sw6 h3 { font-size: clamp(15px, 4.4vw, 22px); }
+.sw6-intro { grid-column: auto !important; grid-row: auto !important; padding: 0; gap: 12px; }
+@media (min-width: 900px) {
+  .sw6-grid { row-gap: 36px; }
+  .sw6-top { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--tg); align-items: end; }
+  .sw6-top .sw6-intro { grid-column: 1 / span 4 !important; align-self: center; padding-right: 20px; gap: 16px; }
+  .sw6-top .sw6.p1 { grid-column: 5 / span 8 !important; }
+  .sw6-row .sw6 h3 { font-size: clamp(20px, 2vw, 30px); }
+}
+@media (max-width: 899px) {
+  .sw6-grid { row-gap: 22px; }
+  .sw6-top { gap: 18px; }
+  .sw6 .go { font-size: 9.5px; letter-spacing: .16em; }
+  .sw6-row .sw6 .label { font-size: 9px; letter-spacing: .16em; }
+}
+
+/* section rhythm: tighter, esp. on phones */
+@media (max-width: 720px) {
+  .sec { padding-block: 44px; }
+  .sec-head { margin-bottom: 22px; }
+  .band .sec { padding-block: 48px; }
+  .svc-grid { gap: 14px; }
+  .svc { gap: 18px; }
+  .story-grid { gap: 22px; }
+  .head-row, .page-head { margin-bottom: 20px; }
+  .cta { padding-block: 56px; }
+}
+
+/* post cards: text always clear of the photo */
+.post .txt { padding-top: 16px !important; }
+@media (min-width: 900px) { .jside .post .txt { padding-top: 0 !important; } }
+
+/* hero film: richer, still behind everything */
+.hero { background: #000; }
+.hero video, .hero img { filter: contrast(1.14) saturate(1.06) brightness(.94); }
+
+/* autofill / form fields stay cream, never blue */
+.field input, .field select, .field textarea { background-color: transparent; }
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink); caret-color: var(--ink);
+  box-shadow: 0 0 0 1000px var(--bg) inset !important; -webkit-box-shadow: 0 0 0 1000px var(--bg) inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+input:autofill { background: var(--bg) !important; color: var(--ink) !important; }
+
+/* contact: compact portrait beside the form on desktop, wide banner on phones */
+.contact-banner { padding-top: calc(var(--nav-h) + 8px); }
+@media (min-width: 900px) {
+  .contact-page { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); column-gap: clamp(40px, 6vw, 96px); align-items: center; max-width: 1100px; margin-inline: auto; padding-top: calc(var(--nav-h) + clamp(28px, 4vw, 56px)); padding-bottom: clamp(60px, 8vw, 110px); }
+  .contact-page .contact-banner { padding: 0; }
+  .contact-page .contact-banner .frame { aspect-ratio: 2 / 3; max-width: 380px; margin-inline: auto; }
+  .contact-page .contact-min { max-width: none; margin: 0; padding: 0; }
+  .contact-page .contact-min .title, .contact-page .contact-min .lead { text-align: left; }
+}
+.sw6-intro .title { text-align: left; }

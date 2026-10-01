@@ -180,14 +180,18 @@
     if (sw) {
       var list = P.slice(0, 5);
       var intro = '<div class="sw6-intro"><p class="label">Selected work</p><h2 class="title">Real love stories</h2>' +
-        '<p>A few weddings, pre-weddings and engagements, each told the way it felt: natural light, honest emotion and the small moments in between.</p>' +
-        '<p class="sub">Every story opens into its full gallery and film.</p><a class="link" href="work.html">View all stories</a></div>';
-      sw.innerHTML = '<div class="sw6-grid">' + intro + list.map(function (p, i) {
+        '<p>A few weddings, pre-weddings and engagements, each told the way it felt: natural light, honest emotion and the small moments in between. Open any story for the full gallery and, where there is one, the film.</p>' +
+        '<a class="link" href="work.html">View all stories</a></div>';
+      var tile = function (p, i) {
         var src = p.card || p.wide || p.cover, r = knownRatio(src) || 1.5;
-        return '<a class="sw6 p' + (i + 1) + (r < 1 ? " is-p" : " is-l") + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im" style="aspect-ratio:' + r.toFixed(3) + '">' +
-          imgTag(src, p.title, i === 0 ? "(min-width:1000px) 64vw, 100vw" : "(min-width:1000px) 50vw, 50vw", i < 2) +
+        return '<a class="sw6 p' + (i + 1) + '" style="--r:' + r.toFixed(3) + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im" style="aspect-ratio:' + r.toFixed(3) + '">' +
+          imgTag(src, p.title, i === 0 ? "(min-width:1000px) 64vw, 100vw" : "(min-width:1000px) 30vw, 50vw", i < 2) +
           '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
-      }).join("") + "</div>";
+      };
+      /* one tight composition: lead story beside the intro, then rows whose tiles share a height (width follows each photo's own ratio) */
+      sw.innerHTML = '<div class="sw6-grid"><div class="sw6-top">' + intro + tile(list[0], 0) + '</div>' +
+        '<div class="sw6-row">' + [1, 2].map(function (i) { return tile(list[i], i); }).join("") + '</div>' +
+        '<div class="sw6-row">' + [3, 4].map(function (i) { return tile(list[i], i); }).join("") + "</div></div>";
     }
 
     /* showcase: what one project feels like before opening it */
