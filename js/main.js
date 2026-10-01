@@ -193,9 +193,9 @@
           '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
       };
       /* one tight composition: lead story beside the intro, then rows whose tiles share a height (width follows each photo's own ratio) */
-      sw.innerHTML = '<div class="sw6-grid"><div class="sw6-top">' + intro + tile(list[0], 0) + '</div>' +
+      sw.innerHTML = '<div class="sw6-grid">' + intro + '<div class="sw6-stack"><div class="sw6-top">' + tile(list[0], 0) + '</div>' +
         '<div class="sw6-row">' + [1, 2].map(function (i) { return tile(list[i], i); }).join("") + '</div>' +
-        '<div class="sw6-row">' + [3, 4].map(function (i) { return tile(list[i], i); }).join("") + "</div></div>";
+        '<div class="sw6-row">' + [3, 4].map(function (i) { return tile(list[i], i); }).join("") + "</div></div></div>";
     }
 
     /* showcase: what one project feels like before opening it */
@@ -408,18 +408,20 @@
   }
   function cursor() {
     var c = $("#cursor"); if (!c) return;
-    var tx = -100, ty = -100, x = -100, y = -100, raf = 0;
+    var tx = -100, ty = -100, x = -100, y = -100, rot = 0, raf = 0;
     var tick = function () {
-      x += (tx - x) * 0.2; y += (ty - y) * 0.2;
+      var dx = tx - x; x += dx * 0.18; y += (ty - y) * 0.18;
+      rot += (Math.max(-9, Math.min(9, dx * 0.12)) - rot) * 0.2;
       c.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
-      raf = (Math.abs(tx - x) + Math.abs(ty - y) > 0.3) ? requestAnimationFrame(tick) : 0;
+      c.style.setProperty("--rot", rot.toFixed(2) + "deg");
+      raf = (Math.abs(dx) + Math.abs(ty - y) > 0.3 || Math.abs(rot) > 0.05) ? requestAnimationFrame(tick) : 0;
     };
     document.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(tick); });
     document.addEventListener("mouseover", function (e) {
       var t = e.target.closest("[data-cursor]"), native = e.target.closest("video, iframe, .vw, .vw-embed, a:not([data-cursor]), button:not([data-cursor]), input, select, textarea, label");
       c.classList.toggle("on", !!t && !native && !vw.classList.contains("open"));
     });
-    document.addEventListener("mousedown", function () { c.classList.add("down"); });
+    document.addEventListener("mousedown", function () { c.classList.remove("snap"); void c.offsetWidth; c.classList.add("down", "snap"); });
     document.addEventListener("mouseup", function () { c.classList.remove("down"); });
     document.addEventListener("mouseleave", function () { c.classList.remove("on"); });
   }

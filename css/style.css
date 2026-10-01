@@ -1272,3 +1272,32 @@ p { text-wrap: pretty; }
   .tm.t3 .tm-im { grid-column: 2 / span 4; }  .tm.t3 .tm-tx { grid-column: 7 / span 5; }
   .tm-tx { gap: 12px; }
 }
+
+/* ================= v320: camera cursor (filled), selected work with a sticky intro ================= */
+.cursor { mix-blend-mode: normal; }
+.cursor span { width: 66px; height: 66px; left: -33px; top: -33px; background: rgba(245, 241, 235, .96); color: var(--ink); border: 0; box-shadow: 0 0 0 1px rgba(26, 26, 26, .1); opacity: 0; transform: scale(.5); transition: opacity .3s ease, transform .55s cubic-bezier(.22, 1, .36, 1); }
+.cursor.on span { opacity: 1; transform: scale(1); }
+.cursor.on.down span { transform: scale(.9); }
+.cursor svg { width: 26px; height: 26px; stroke-width: 1.15; transform: rotate(var(--rot, 0deg)); transition: transform .2s ease-out; }
+/* shutter: a single soft ring leaves the camera on click */
+.cursor span::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(245, 241, 235, .9); opacity: 0; }
+.cursor.snap span::after { animation: shutter .55s cubic-bezier(.22, 1, .36, 1); }
+@keyframes shutter { from { transform: scale(1); opacity: .9; } to { transform: scale(1.7); opacity: 0; } }
+.dark-band .cursor span, .cursor.on-dark span { background: rgba(245, 241, 235, .96); }
+
+/* selected work: structure */
+.sw6-stack { display: grid; row-gap: 30px; min-width: 0; }
+.sw6-grid { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 30px; }
+@media (min-width: 900px) {
+  .sw6-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 0; align-items: start; }
+  .sw6-intro { position: sticky; top: calc(var(--nav-h) + 40px); grid-column: 1 / span 3 !important; align-self: start; padding: 0; gap: 16px; }
+  .sw6-stack { grid-column: 4 / -1; row-gap: clamp(36px, 4vw, 56px); }
+  .sw6-top { display: block; margin: 0; }
+  .sw6-top .sw6.p1 { grid-column: auto !important; }
+  .sw6-row { gap: var(--tg); }
+  /* quiet type reaction: the name opens up a little as the arrow travels */
+  .sw6 h3 { transition: letter-spacing .7s cubic-bezier(.22, 1, .36, 1); }
+  .sw6:hover h3 { letter-spacing: .115em; }
+  .sw6.p1 h3 { font-size: clamp(28px, 3vw, 44px); }
+}
+@media (min-width: 900px) { .sw6-intro { margin-top: 18px; } }
