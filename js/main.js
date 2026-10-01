@@ -178,14 +178,15 @@
        the image alternates between the left and right edge and the text always sits on the image's bottom edge. */
     var sw = $("#selected");
     if (sw) {
-      var list = P.slice(0, 3);
-      sw.innerHTML = '<div class="sw5-list">' + list.map(function (p, i) {
-        var src = p.wide || p.cover, pos = p.focus || "50% 50%";
-        return '<a class="sw5 ' + (i % 2 ? "r" : "l") + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
-          imgTag(src, p.title, "(min-width:1000px) 64vw, 100vw", i === 0) +
-          '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
-      }).join("") + "</div>";
+      sw.innerHTML = '<div class="sw6"><div class="sw6-intro"><p class="label">Selected work</p><h2 class="title">Real love stories</h2>' +
+        '<p>A few weddings, pre-weddings and engagements, kept the way they were lived. Natural light, real emotion and very little posing.</p>' +
+        '<a class="link" href="work.html">View all stories</a></div><div class="sw6-row">' +
+        P.slice(0, 3).map(function (p, i) {
+          return '<a class="sw6-c c' + (i + 1) + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
+            imgTag(p.cover, p.title, "(min-width:900px) 24vw, 31vw", i === 1) + '</div><div class="tx"><h3>' + esc(p.title) + '</h3><p class="label">' + esc(p.cat) + '</p><span class="go">View project ' + ARROW + '</span></div></a>';
+        }).join("") + "</div></div>";
     }
+
     /* showcase: what one project feels like before opening it */
     var sc = $("#showcase");
     if (sc && window.SHOWCASE) {
