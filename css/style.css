@@ -983,3 +983,39 @@ html.entering .header { opacity: 0; pointer-events: none; }
 .story-im img { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 50% 0 !important; }
 @media (max-width: 899px) { .story-im { width: 78%; margin-left: auto; } }
 @media (min-width: 900px) { .story-im { width: 100%; } }
+
+/* ================= v170: five stories, natural ratios, breathing room ================= */
+.sw6 .im { aspect-ratio: 3 / 2; }
+.sw6 .tx { padding-top: 2px; }
+.sw6-grid { align-items: end; }
+.sw6.p1, .sw6.p4 { grid-column: 1 / -1; }
+.sw6.p2, .sw6.p3, .sw6.p5 { grid-column: span 1; }
+.sw6.p4 { grid-column: 1 / span 1; } .sw6.p5 { grid-column: 2 / span 1; }
+.sw6.p4 .im, .sw6.p5 .im { }
+@media (min-width: 900px) {
+  .sw6-grid { row-gap: clamp(72px, 9vw, 130px); }
+  .sw6.p1 { grid-column: 5 / span 8; grid-row: 1; }
+  .sw6.p2 { grid-column: 1 / span 4; grid-row: 2; }
+  .sw6.p3 { grid-column: 6 / span 7; grid-row: 2; }
+  .sw6.p4 { grid-column: 1 / span 8; grid-row: 3; }
+  .sw6.p5 { grid-column: 10 / span 3; grid-row: 3; }
+  .sw6 { gap: 22px; }
+  .sw6 .tx { gap: 12px; }
+}
+@media (max-width: 899px) { .sw6 { gap: 14px; } .sw6 .tx { gap: 7px; } .sw6-grid { row-gap: 40px; } }
+
+/* text never touches an image: one consistent gap everywhere */
+.svc h3 { margin-top: 22px; }
+.svc p { margin-top: 8px; }
+@media (max-width: 899px) {
+  .svc { gap: 22px; }
+  .svc .stx { padding-block: 6px; }
+  .svc h3 { margin-top: 0; }
+}
+.card .tx, .card .txt { padding-top: 20px; }
+.card h3 { margin-top: 0; }
+.txt { padding-top: 18px; }
+.sc.t { padding: 6px 0; }
+.film-cap { padding-top: 22px; }
+.sec-head { margin-bottom: clamp(36px, 5vw, 64px); }
+.sec-head .lead { margin-top: 14px; }

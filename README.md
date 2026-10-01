@@ -48,3 +48,18 @@ After changing CSS/JS, bump the `?v=` number in the HTML files so visitors don't
 - Phone, WhatsApp, email, Instagram (`SITE`)
 - Numbers (150+ weddings and so on) and the About timeline
 - Year/location of each story, and the seven sample Journal articles
+
+## Image sizes (for the future CMS)
+
+Images are never re-cropped to a fixed box where it would hurt the photo; the container follows the image's own ratio. Upload at these shapes:
+
+| Place | Shape | Min. size |
+|---|---|---|
+| Selected Work card | landscape 3:2 *or* portrait 4:5 (alternate) | 2000px long edge |
+| Project banner | landscape 3:2 or wider | 2400px wide |
+| Gallery / project photos | any ratio, kept as shot | 2000px long edge |
+| What I Do tiles | portrait 4:5 | 1200px wide |
+| About portrait | portrait 2:3 | 1400px wide |
+| Contact header | landscape 16:9 (face in the upper half) | 2000px wide |
+
+Where an image must be cropped (tiles, banners) it is pinned top-centre, so keep faces in the upper part of the frame.

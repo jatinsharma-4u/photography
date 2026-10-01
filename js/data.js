@@ -45,21 +45,35 @@ window.MEDIA = {
 window.PROJECTS = [
   {
     slug: "jaidev-and-shaily", title: "Jaidev & Shaily", cat: "Weddings", location: "Delhi", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("js-12"), wide: I("js-04"), focus: "50% 45%",
+    photo: "Rohit", video: "Rohit", cover: I("js-12"), wide: I("js-04"), card: I("js-04"), focus: "50% 45%",
     gallery: [I("js-12")].concat(range("js", 21).filter(function (s) { return s !== I("js-12"); })),
     story: "A wedding told through glances, laughter and the quiet moments in between. Natural light, real emotion and very little posing.",
     films: [],
   },
   {
     slug: "sid-and-aditi", title: "Sid & Aditi", cat: "Pre-Weddings", location: "", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("film-card"), wide: I("film-poster"), focus: "50% 50%",
+    photo: "Rohit", video: "Rohit", cover: I("film-card"), wide: I("film-poster"), card: I("film-card"), focus: "50% 50%",
     gallery: [I("film-card"), I("film-poster")],
     story: "A pre-wedding story shot like a short film: walks through old streets, easy laughter and a couple who stopped noticing the camera.",
     films: [{ title: "Pre-wedding film · 1:43", embed: "media/video/sid-aditi.mp4", poster: I("film-poster") }],
   },
   {
+    slug: "the-delhi-evening", title: "The Delhi Evening", cat: "Weddings", location: "Delhi", year: "",
+    photo: "Rohit", video: "Rohit", cover: I("js-02"), wide: I("js-02"), card: I("js-02"), focus: "50% 0%",
+    gallery: [I("js-02"), I("js-05"), I("js-06"), I("js-08"), I("js-13"), I("js-16"), I("js-17"), I("js-21")],
+    story: "The light going gold, the families arriving and a long evening that ended the way the best ones do: late, loud and full of people they love.",
+    films: [],
+  },
+  {
+    slug: "golden-hour", title: "Golden Hour", cat: "Weddings", location: "Delhi", year: "",
+    photo: "Rohit", video: "Rohit", cover: I("js-14"), wide: I("js-14"), card: I("js-14"), focus: "50% 0%",
+    gallery: [I("js-14"), I("js-04"), I("js-02"), I("js-09"), I("js-10"), I("js-11")],
+    story: "Ten quiet minutes before sunset, just the two of them, and almost nothing for me to direct.",
+    films: [],
+  },
+  {
     slug: "rohit-and-ambika", title: "Rohit & Ambika", cat: "Engagements", location: "", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("ra-01"), wide: I("ra-01"), focus: "50% 24%",
+    photo: "Rohit", video: "Rohit", cover: I("ra-01"), wide: I("ra-01"), card: I("ra-01"), focus: "50% 24%",
     gallery: range("ra", 4),
     story: "Ivory lace, a double-breasted suit and an archway they walked through hand in hand.",
     films: [],
