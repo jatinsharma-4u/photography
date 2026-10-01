@@ -1344,3 +1344,11 @@ p { text-wrap: pretty; }
 }
 .contact-page .field input, .contact-page .field select, .contact-page .field textarea { background-color: transparent; }
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { box-shadow: 0 0 0 1000px var(--bg-2) inset !important; -webkit-box-shadow: 0 0 0 1000px var(--bg-2) inset !important; }
+
+/* ================= v360: nav sits close to the logo ================= */
+@media (min-width: 900px) {
+  .header .nav-l { justify-self: end; margin-right: clamp(36px, 5vw, 96px); }
+  .header .nav-r { justify-self: start; margin-left: clamp(36px, 5vw, 96px); }
+}
+/* selected work intro title: a calm size, two lines at most */
+@media (min-width: 900px) { .sw6-intro .title, .sp-intro .title { font-size: clamp(24px, 2.3vw, 36px); line-height: 1.15; } }
