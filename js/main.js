@@ -174,17 +174,20 @@
 
   /* ---------- pages ---------- */
   function home() {
-    /* selected work: one grid, three featured stories. Every cover is the same 3:2 landscape, 8 of 12 columns wide;
-       the image alternates between the left and right edge and the text always sits on the image's bottom edge. */
+    /* selected work: a collage on the 12-column grid. An intro block sits beside the lead story; the next two stories
+       share a row at different widths, bottoms aligned. Every cover is the same 3:2 landscape, nothing is re-cropped. */
     var sw = $("#selected");
     if (sw) {
-      sw.innerHTML = '<div class="sw6"><div class="sw6-intro"><p class="label">Selected work</p><h2 class="title">Real love stories</h2>' +
-        '<p>A few weddings, pre-weddings and engagements, kept the way they were lived. Natural light, real emotion and very little posing.</p>' +
-        '<a class="link" href="work.html">View all stories</a></div><div class="sw6-row">' +
-        P.slice(0, 3).map(function (p, i) {
-          return '<a class="sw6-c c' + (i + 1) + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
-            imgTag(p.cover, p.title, "(min-width:900px) 24vw, 31vw", i === 1) + '</div><div class="tx"><h3>' + esc(p.title) + '</h3><p class="label">' + esc(p.cat) + '</p><span class="go">View project ' + ARROW + '</span></div></a>';
-        }).join("") + "</div></div>";
+      var list = P.slice(0, 3);
+      var intro = '<div class="sw6-intro"><p class="label">Selected work</p><h2 class="title">Real love stories</h2>' +
+        '<p>A few weddings, pre-weddings and engagements, each told the way it felt: natural light, honest emotion and the small moments in between.</p>' +
+        '<p class="sub">Every story opens into its full gallery and film.</p><a class="link" href="work.html">View all stories</a></div>';
+      sw.innerHTML = '<div class="sw6-grid">' + intro + list.map(function (p, i) {
+        var src = p.wide || p.cover;
+        return '<a class="sw6 p' + (i + 1) + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im">' +
+          imgTag(src, p.title, i === 0 ? "(min-width:1000px) 64vw, 100vw" : "(min-width:1000px) 50vw, 50vw", i === 0) +
+          '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
+      }).join("") + "</div>";
     }
 
     /* showcase: what one project feels like before opening it */

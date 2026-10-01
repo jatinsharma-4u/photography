@@ -934,31 +934,52 @@ html.entering .header { opacity: 0; pointer-events: none; }
 ::selection { background: var(--ink); color: var(--bg); }
 
 
-/* ================= v154: Selected Work, intro + three staggered portraits ================= */
-.sw6 { display: grid; gap: clamp(36px, 6vw, 56px); }
-.sw6-intro { display: grid; gap: 14px; justify-items: start; align-content: start; }
+/* ================= v160: selected work collage, about composition ================= */
+.sw6-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; row-gap: 34px; }
+.sw6-intro { grid-column: 1 / -1; display: grid; gap: 14px; justify-items: start; }
 .sw6-intro .title { margin: 0; }
-.sw6-intro p:not(.label) { max-width: 34ch; color: var(--text); font-size: 15px; line-height: 1.8; margin-top: 4px; }
-.sw6-intro .link { margin-top: 12px; }
-.sw6-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
-.sw6-c { display: block; }
-.sw6-c .im { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-2); }
-.sw6-c .im img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform-origin: 50% 0; transition: transform 1.6s cubic-bezier(.22, 1, .36, 1), opacity .6s ease; }
-.sw6-c .tx { display: grid; gap: 4px; margin-top: 14px; }
-.sw6-c h3 { font: 300 clamp(13px, 3.4vw, 26px)/1.15 var(--serif); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
-.sw6-c .label { margin: 0; font-size: 9px; letter-spacing: .22em; }
-.sw6-c .go { display: none; align-items: center; gap: 10px; margin-top: 8px; font: 500 11px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--ink); }
-.sw6-c .go svg { width: 18px; height: 18px; transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
-.sw6-c:hover .go svg { transform: translateX(6px); }
-@media (hover: hover) { .sw6-c:hover .im img { transform: scale(1.035); } }
-/* the middle story sits higher, the outer two lower: one grid, one rhythm */
-.sw6-c.c1, .sw6-c.c3 { margin-top: clamp(22px, 6vw, 84px); }
+.sw6-intro p:not(.label) { color: var(--text); font-size: 15px; line-height: 1.75; max-width: 46ch; }
+.sw6-intro .sub { color: var(--mute); font-size: 13px; }
+.sw6-intro .link { margin-top: 6px; }
+.sw6 { display: flex; flex-direction: column; gap: 14px; align-self: end; min-width: 0; }
+.sw6.p1 { grid-column: 1 / -1; }
+.sw6 .im { position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--bg-2); }
+.sw6 .im img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform-origin: 50% 0; transition: transform 1.6s cubic-bezier(.22, 1, .36, 1), opacity .6s ease; }
+@media (hover: hover) { .sw6:hover .im img { transform: scale(1.035); } }
+.sw6 .tx { display: grid; gap: 8px; justify-items: start; }
+.sw6 .label { margin: 0; }
+.sw6 h3 { font: 300 clamp(15px, 4.4vw, 22px)/1.15 var(--serif); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+.sw6 .go { display: inline-flex; align-items: center; gap: 8px; font: 500 10px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--ink); }
+.sw6 .go svg { width: 16px; height: 16px; transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
+.sw6:hover .go svg { transform: translateX(6px); }
+.sw6.p1 h3 { font-size: clamp(22px, 6vw, 30px); }
 @media (min-width: 900px) {
-  .sw6 { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: start; }
-  .sw6-intro { grid-column: 1 / span 3; position: sticky; top: calc(var(--nav-h) + 40px); }
-  .sw6-row { grid-column: 4 / span 9; }
-  .sw6-c .go { display: inline-flex; }
-  .sw6-c .tx { margin-top: 20px; }
+  .sw6-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: clamp(64px, 8vw, 110px); }
+  .sw6-intro { grid-column: 1 / span 4; grid-row: 1; align-self: center; gap: 18px; padding-right: 12px; }
+  .sw6-intro p:not(.label) { font-size: 16px; }
+  .sw6.p1 { grid-column: 5 / span 8; grid-row: 1; }
+  .sw6.p2 { grid-column: 1 / span 7; grid-row: 2; }
+  .sw6.p3 { grid-column: 8 / span 5; grid-row: 2; }
+  .sw6 .tx { gap: 10px; }
+  .sw6 h3 { font-size: clamp(22px, 2.4vw, 36px); }
+  .sw6.p1 h3 { font-size: clamp(26px, 3vw, 46px); }
+  .sw6 .go { font-size: 11px; letter-spacing: .24em; }
 }
-.sw6-intro, .sw6-intro .title { text-align: left; }
-.sw6-intro .title { font-size: clamp(30px, 3.4vw, 52px); }
+
+/* about: copy on the left, the portrait is shown whole (never cropped) on the right */
+.story-grid { align-items: center; }
+.story-im { aspect-ratio: auto !important; }
+.story-im img { position: static !important; width: 100%; height: auto !important; object-fit: contain; }
+.story-txt h2 { font-weight: 300; letter-spacing: .06em; line-height: 1.15; font-size: clamp(26px, 3.4vw, 50px); text-transform: uppercase; }
+.story-txt p { max-width: 52ch; }
+.story-txt .place { color: var(--mute); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; }
+@media (min-width: 900px) {
+  .story-txt { grid-column: 1 / span 6; grid-row: 1; padding-right: 6%; }
+  .story-im { grid-column: 8 / span 5; grid-row: 1; }
+}
+.contact-banner img { object-position: 50% 18% !important; }
+.sc-intro, .lead-line { color: var(--text); max-width: 56ch; }
+.story-im { aspect-ratio: 2 / 3 !important; position: relative; overflow: hidden; background: var(--bg-2); max-width: 440px; }
+.story-im img { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 50% 0 !important; }
+@media (max-width: 899px) { .story-im { width: 78%; margin-left: auto; } }
+@media (min-width: 900px) { .story-im { width: 100%; } }
