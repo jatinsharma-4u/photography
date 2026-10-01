@@ -1242,3 +1242,43 @@ main { animation: mainIn .9s var(--ease) both; }
 .menu-foot .row a { padding-block: 9px; }
 .menu-foot > p { display: none; }
 .menu-cta { order: 2; margin-top: 18px; }
+
+/* ================= v30: selected work = pinned horizontal film strip ================= */
+.hs { display: none; }
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .sw2 { display: none; }
+  .hs { display: block; position: relative; margin-inline: calc(50% - 50vw); margin-top: -1rem; }
+  .hs-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; align-content: center; overflow: hidden; padding-top: calc(var(--nav-h) + 2svh); padding-bottom: clamp(56px, 11svh, 110px); }
+  .hs-label { position: absolute; left: calc(var(--gutter) + 12px); top: calc(var(--nav-h) + 1svh); }
+  .hs-track { display: flex; align-items: flex-start; gap: clamp(40px, 6vw, 110px); width: max-content; padding: clamp(22px, 5svh, 54px) 12vw 0 calc(var(--gutter) + 12px); will-change: transform; }
+  .hs-card { position: relative; flex: none; display: block; }
+  .hs-card:nth-child(even) { margin-top: clamp(26px, 8svh, 80px); }
+  .hs-img { display: block; height: min(58svh, 540px); aspect-ratio: var(--ar, .8); border-radius: var(--r-sm); overflow: hidden; background: var(--bg-2); }
+  .hs-img img, .hs-img .ph { width: 100%; height: 100%; object-fit: cover; transition: scale 1.4s var(--ease); }
+  .hs-card:hover .hs-img img { scale: 1.06; }
+  .hs-no { position: absolute; z-index: 2; left: -.06em; top: -.62em; font-family: var(--font-display); font-size: clamp(5rem, 9vw, 9rem); line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(13,47,35,.4); pointer-events: none; transition: -webkit-text-stroke-color .5s, transform .8s var(--ease); }
+  .hs-card:hover .hs-no { -webkit-text-stroke-color: var(--ink); transform: translateY(-6px); }
+  .hs-cap { display: grid; gap: 6px; margin-top: 16px; }
+  .hs-t { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.8rem, 2.8vw, 2.8rem); line-height: 1.05; letter-spacing: -.02em; transition: transform .7s var(--ease); }
+  .hs-card:hover .hs-t { transform: translateX(10px); }
+  .hs-m { display: flex; align-items: center; gap: 10px; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); }
+  .hs-m i { width: 18px; height: 1px; background: currentColor; }
+  .hs-all { align-self: center; display: grid; place-items: center; width: clamp(240px, 24vw, 340px); }
+  .hs-allc { display: grid; place-items: center; align-content: center; gap: 14px; width: clamp(180px, 17vw, 240px); aspect-ratio: 1; border: 1px solid var(--ink); border-radius: 50%; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; text-align: center; transition: background .6s var(--ease), color .6s, transform .8s var(--ease); }
+  .hs-allc svg { width: 24px; height: 24px; transition: transform .7s var(--ease); }
+  .hs-all:hover .hs-allc { background: var(--ink); color: var(--bg); transform: scale(1.06); }
+  .hs-all:hover .hs-allc svg { transform: translateX(8px); }
+  .hs-ui { position: absolute; left: calc(var(--gutter) + 12px); right: calc(var(--gutter) + 12px); bottom: clamp(22px, 5svh, 48px); display: flex; align-items: center; gap: 26px; }
+  .hs-count { font-family: var(--font-display); font-size: 1.25rem; color: var(--mute); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+  .hs-count b { font-weight: 400; font-size: clamp(2.2rem, 3.4vw, 3.4rem); color: var(--ink); }
+  .hs-bar { flex: 1; height: 1px; background: var(--line); position: relative; }
+  .hs-bar i { position: absolute; inset: 0; background: var(--ink); height: 2px; top: -.5px; transform: scaleX(0); transform-origin: left; }
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .hs-sticky { padding-top: calc(var(--nav-h) + 5svh); padding-bottom: clamp(70px, 14svh, 130px); }
+  .hs-img { height: min(50svh, 500px); }
+  .hs-card:nth-child(even) { margin-top: clamp(20px, 6svh, 58px); }
+  .hs-track { padding-top: clamp(40px, 8svh, 80px); }
+  .hs-label { top: calc(var(--nav-h) + 3svh); }
+  .hs-no { font-size: clamp(4rem, 7.5vw, 7.5rem); top: -.56em; }
+}
