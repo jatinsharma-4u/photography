@@ -17,10 +17,10 @@
 <link rel="preload" href="media/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(min-width:721px)" fetchpriority="high">
 <link rel="preload" as="image" href="media/img/hero-poster-m.jpg" media="(max-width:720px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=50">
-<script defer src="js/dims.js?v=50"></script>
-<script defer src="js/data.js?v=50"></script>
-<script defer src="js/main.js?v=50"></script>
+<link rel="stylesheet" href="css/style.css?v=60">
+<script defer src="js/dims.js?v=60"></script>
+<script defer src="js/data.js?v=60"></script>
+<script defer src="js/main.js?v=60"></script>
 </head>
 <body data-page="home" id="top">
 <main>
@@ -29,8 +29,15 @@
 
 <section class="sec wrap" id="work">
   <h1 class="sr">JourneysByRohit, wedding photography and films</h1>
+  <div class="sec-head"><p class="label">Selected work</p><h2 class="title">Real love stories</h2></div>
   <div id="selected"></div>
-  <p class="center" style="margin-top:clamp(40px,5vw,72px)"><a class="link" href="work.html">View all stories</a></p>
+  <p class="center" style="margin-top:clamp(48px,6vw,90px)"><a class="link" href="work.html">View all stories</a></p>
+</section>
+
+<section class="sec wrap" style="border-top:1px solid var(--line)">
+  <div class="sec-head"><p class="label">Gallery</p><h2 class="title">Moments, kept</h2></div>
+  <div class="jgal" id="homeGallery"></div>
+  <p class="center" style="margin-top:44px"><a class="link" href="gallery.html">View full gallery</a></p>
 </section>
 
 <section class="sec wrap" style="border-top:1px solid var(--line)">
@@ -47,12 +54,12 @@
 </section>
 
 <section class="sec wrap" style="border-top:1px solid var(--line)">
-  <div class="sec-head"><p class="label">Gallery</p><h2 class="title">Jaidev &amp; Shaily, Delhi</h2></div>
-  <div class="jgal" id="homeGallery"></div>
-  <p class="center" style="margin-top:36px"><a class="link" href="gallery.html">View full gallery</a></p>
+  <div class="sec-head"><p class="label">Notes &amp; stories</p><h2 class="title">Journal</h2></div>
+  <div class="cards" id="journal"></div>
+  <p class="center"><a class="link" href="blog.html">All articles</a></p>
 </section>
 
-<section class="sec wrap" style="padding-top:0">
+<section class="sec wrap" style="border-top:1px solid var(--line)">
   <div class="sec-head"><p class="label">Film</p></div>
   <div class="reel" id="reel" role="button" tabindex="0" aria-label="Play the pre-wedding film" data-cursor="Play"></div>
   <div class="film-cap"><h3>Sid &amp; Aditi</h3><p>A pre-wedding story shot like a short film: walks through old streets, easy laughter and a couple who stopped noticing the camera.</p></div>
@@ -65,12 +72,6 @@
     <article><h3>Wedding films</h3><p>Cinematic films with real sound: vows, speeches, laughter and music. A teaser, a highlight film and a full-length feature.</p></article>
     <article><h3>Pre-weddings &amp; engagements</h3><p>Destination shoots, engagements and private celebrations, with the same story-first approach.</p></article>
   </div>
-</section>
-
-<section class="sec wrap" style="padding-top:0">
-  <div class="sec-head"><p class="label">Notes &amp; stories</p><h2 class="title">Journal</h2></div>
-  <div class="cards" id="journal"></div>
-  <p class="center"><a class="link" href="blog.html">All articles</a></p>
 </section>
 
 <section class="sec wrap cta">

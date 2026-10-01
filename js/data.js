@@ -33,7 +33,11 @@ window.MEDIA = {
   showreelPoster: I("film-poster"),
   portrait: I("about"),
   /* landscape (3:2) frames for the home slider */
-  slider: [I("js-02"), I("js-04"), I("js-08"), I("js-14"), I("js-16"), I("js-06")],
+  /* hand-picked order for the home gallery */
+  homeGallery: [I("js-02"), I("js-12"), I("js-01"), I("js-06"), I("js-18"), I("js-14"), I("js-19"), I("js-10"), I("js-15"), I("js-08")],
+  /* tiles of the opening screen */
+  entryTiles: [I("js-04"), I("ra-01"), I("js-12"), I("film-card"), I("js-01"), I("js-09"), I("js-10"), I("js-15"), I("js-19"), I("ra-03"), I("js-20"), I("js-03"), I("js-07"), I("js-02"), I("js-14")],
+  heroStart: 4,                 // seconds trimmed from the start of the hero video
   bts: [I("js-13"), I("js-17"), I("ra-02"), I("js-21")],
 };
 
@@ -41,21 +45,21 @@ window.MEDIA = {
 window.PROJECTS = [
   {
     slug: "jaidev-and-shaily", title: "Jaidev & Shaily", cat: "Weddings", location: "Delhi", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("js-12"),
+    photo: "Rohit", video: "Rohit", cover: I("js-12"), wide: I("js-04"), focus: "50% 45%",
     gallery: [I("js-12")].concat(range("js", 21).filter(function (s) { return s !== I("js-12"); })),
     story: "A wedding told through glances, laughter and the quiet moments in between. Natural light, real emotion and very little posing.",
     films: [],
   },
   {
     slug: "sid-and-aditi", title: "Sid & Aditi", cat: "Pre-Weddings", location: "", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("film-card"),
+    photo: "Rohit", video: "Rohit", cover: I("film-card"), wide: I("film-poster"), focus: "50% 50%",
     gallery: [I("film-card"), I("film-poster")],
     story: "A pre-wedding story shot like a short film: walks through old streets, easy laughter and a couple who stopped noticing the camera.",
     films: [{ title: "Pre-wedding film · 1:43", embed: "media/video/sid-aditi.mp4", poster: I("film-poster") }],
   },
   {
     slug: "rohit-and-ambika", title: "Rohit & Ambika", cat: "Engagements", location: "", year: "",
-    photo: "Rohit", video: "Rohit", cover: I("ra-01"),
+    photo: "Rohit", video: "Rohit", cover: I("ra-01"), wide: I("ra-01"), focus: "50% 24%",
     gallery: range("ra", 4),
     story: "Ivory lace, a double-breasted suit and an archway they walked through hand in hand.",
     films: [],

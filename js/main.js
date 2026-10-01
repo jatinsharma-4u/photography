@@ -96,9 +96,9 @@
   function justify() {
     $$(".jgal").forEach(function (c) {
       var W = c.clientWidth; if (!W) return;
-      var vw = window.innerWidth, gap = vw < 700 ? 4 : 8, H = vw < 700 ? 220 : vw < 1100 ? 290 : 350, row = [], sum = 0;
+      var vw = window.innerWidth, gap = vw < 700 ? 4 : 6, H = vw < 700 ? 230 : vw < 1100 ? 320 : 400, row = [], sum = 0;
       function flush(last) {
-        var avail = W - gap * (row.length - 1), h = (last && sum * H + gap * (row.length - 1) < W * 0.62) ? H : avail / sum;
+        var avail = W - gap * (row.length - 1), h = (last && sum * H + gap * (row.length - 1) < W * 0.5) ? H : avail / sum;
         row.forEach(function (it) { var r = +it.getAttribute("data-r"); it.style.width = Math.floor(r * h) + "px"; it.style.height = Math.round(h) + "px"; });
         row = []; sum = 0;
       }
@@ -156,35 +156,25 @@
 
   /* ---------- pages ---------- */
   function home() {
-    /* selected work: one large image at a time, simple arrows, opens the full-screen viewer */
+    /* selected work: large landscape works (fixed 3:2, object-fit cover), text alternating around the image */
     var sw = $("#selected");
     if (sw) {
-      var list = P.slice(0, 3), cur = 0;
-      sw.innerHTML = '<div class="sw2"><div class="sw2-media"><div class="sw2-stage" id="swStage" style="--ar:' + (knownRatio(list[0].cover) || 0.8).toFixed(4) + '"><div class="sw2-frame" data-cursor="View">' +
-        list.map(function (p, i) { return imgTag(p.cover, p.title, "(min-width:1000px) 46vw, 100vw", i === 0).replace("<img ", '<img class="sw2-img' + (i === 0 ? " on" : "") + '" '); }).join("") + '</div>' +
-        '<button class="sw2-btn prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><button class="sw2-btn next" type="button" aria-label="Next story">' + CHEV_R + '</button></div></div>' +
-        '<div class="sw2-info"><p class="label">Selected work</p><h2 class="sw2-title" id="swT"></h2><p class="label" id="swM"></p><p class="sw2-story" id="swS"></p>' +
-        '<div class="sw2-links"><button class="link" type="button" id="swOpen">View gallery</button><a class="link" id="swStory" href="#">Read the story</a></div>' +
-        '<ul class="sw2-list">' + list.map(function (p, i) { return '<li><button type="button" data-i="' + i + '"' + (i === 0 ? ' aria-current="true"' : "") + ">" + esc(p.title) + "</button></li>"; }).join("") + "</ul></div></div>";
-      var imgs = $$(".sw2-img", sw), stage = $("#swStage"), tabsEl = $$(".sw2-list button", sw);
-      var show = function (i) {
-        cur = (i + list.length) % list.length; var p = list[cur];
-        imgs.forEach(function (im, k) { im.classList.toggle("on", k === cur); });
-        tabsEl.forEach(function (b, k) { k === cur ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"); });
-        stage.style.setProperty("--ar", (knownRatio(p.cover) || 0.8).toFixed(4));
-        $("#swT").textContent = p.title; $("#swM").textContent = [p.cat, meta(p)].filter(Boolean).join(", "); $("#swS").textContent = p.story; $("#swStory").href = "project.html?p=" + p.slug;
-        if (imgs[(cur + 1) % imgs.length]) imgs[(cur + 1) % imgs.length].loading = "eager";
-      };
-      var openCur = function () { var p = list[cur]; if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, $(".sw2-frame", sw)); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, $(".sw2-frame", sw)); };
-      $(".prev", sw).addEventListener("click", function () { show(cur - 1); }); $(".next", sw).addEventListener("click", function () { show(cur + 1); });
-      tabsEl.forEach(function (b) { b.addEventListener("click", function () { show(+b.getAttribute("data-i")); }); });
-      $(".sw2-frame", sw).addEventListener("click", openCur); $("#swOpen").addEventListener("click", openCur);
-      var x0 = null; stage.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-      stage.addEventListener("touchend", function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
-      show(0);
+      var list = P.slice(0, 3), layout = ["l", "r", "l"];
+      sw.innerHTML = list.map(function (p, i) {
+        var src = p.wide || p.cover, pos = p.focus || "50% 50%";
+        return '<article class="sw3 ' + layout[i % 3] + '"><button class="sw3-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + '">' +
+          imgTag(src, p.title, "(min-width:1000px) 62vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</button>' +
+          '<div class="sw3-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
+          '<div class="sw3-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
+      }).join("");
+      sw.addEventListener("click", function (e) {
+        var b = e.target.closest("button[data-i]"); if (!b) return;
+        var p = list[+b.getAttribute("data-i")], opener = b.classList.contains("sw3-im") ? b : b;
+        if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, opener); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, opener);
+      });
     }
     var all = galleryItems(), hg = $("#homeGallery");
-    if (hg) { var pick = all.filter(function (g) { return g.slug === P[0].slug; }).slice(0, 12); hg.innerHTML = pick.map(function (g) { return jItem(g, all.indexOf(g)); }).join(""); bindGallery(hg, all); }
+    if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g) { return jItem(g, all.indexOf(g)); }).join(""); bindGallery(hg, all); }
     var jr = $("#journal"); if (jr) jr.innerHTML = POSTS.slice(0, 3).map(postCard).join("");
     $$("[data-portrait]").forEach(function (el) { el.innerHTML = M.portrait ? imgTag(M.portrait, "Rohit photographing his reflection", "(min-width:860px) 40vw, 90vw") : ph("Portrait"); var b = el.closest("[data-ar]"); if (b) b.style.setProperty("--ar", (knownRatio(M.portrait) || 0.8).toFixed(4)); });
     var rl = $("#reel");
@@ -197,13 +187,17 @@
   }
   function heroVideo() {
     var hero = $(".hero"); if (!hero) return;
-    var src = innerWidth < 720 && M.heroVideoMobile ? M.heroVideoMobile : M.heroVideo, poster = innerWidth < 720 && M.heroPosterMobile ? M.heroPosterMobile : M.heroPoster;
+    var src = innerWidth < 720 && M.heroVideoMobile ? M.heroVideoMobile : M.heroVideo, poster = innerWidth < 720 && M.heroPosterMobile ? M.heroPosterMobile : M.heroPoster, START = M.heroStart || 0;
     if (poster) hero.insertAdjacentHTML("afterbegin", '<img src="' + esc(poster) + '" alt="" fetchpriority="high">');
     if (!src) return;
     var v = document.createElement("video");
-    v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = "auto"; v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
-    v.src = src; hero.insertBefore(v, hero.firstChild.nextSibling || null);
+    v.muted = true; v.loop = false; v.playsInline = true; v.autoplay = true; v.preload = "auto"; v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
+    v.src = src + (START ? "#t=" + START : ""); hero.insertBefore(v, hero.firstChild.nextSibling || null);
     var inView = true, kick = function () { if (inView && v.paused && !document.hidden) v.play().catch(function () {}); };
+    var restart = function () { try { v.currentTime = START; } catch (e) {} kick(); };
+    v.addEventListener("loadedmetadata", function () { if (START && v.currentTime < START) { try { v.currentTime = START; } catch (e) {} } });
+    v.addEventListener("ended", restart);
+    v.addEventListener("timeupdate", function () { if (v.duration && v.currentTime >= v.duration - 0.08) restart(); });
     new IntersectionObserver(function (es) { inView = es[es.length - 1].isIntersecting; inView ? kick() : v.pause(); }).observe(v);
     v.addEventListener("playing", function () { v.classList.add("on"); }); v.addEventListener("canplay", kick);
     document.addEventListener("visibilitychange", kick); window.addEventListener("pageshow", kick); document.addEventListener("touchstart", kick, { once: true, passive: true }); kick();
@@ -359,25 +353,45 @@
     document.addEventListener("mouseleave", function () { c.classList.remove("on"); });
   }
 
-  /* ---------- opening: a quiet curtain lifts once per visit ---------- */
+  /* ---------- opening: an Enter screen, then a smooth scroll down into the hero ---------- */
   function entry() {
-    var hero = $(".hero"), seen = false;
-    try { seen = sessionStorage.getItem("jbr-seen") === "1"; sessionStorage.setItem("jbr-seen", "1"); } catch (e) {}
-    if (!hero || seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var el = document.createElement("div"); el.className = "entry"; el.setAttribute("aria-hidden", "true"); el.innerHTML = "<i></i>";
-    document.body.appendChild(el); hero.classList.add("pre"); document.body.style.overflow = "hidden";
-    setTimeout(function () { el.classList.add("go"); hero.classList.remove("pre"); }, 800);
-    setTimeout(function () { el.remove(); document.body.style.overflow = ""; }, 1900);
+    var hero = $(".hero"); if (!hero) return false;
+    var fromSite = false;
+    try { fromSite = document.referrer && new URL(document.referrer).origin === location.origin && (performance.getEntriesByType("navigation")[0] || {}).type !== "reload"; } catch (e) {}
+    if (fromSite || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+    var tiles = (M.entryTiles || []).map(function (src) { var m = /^media\/img\/([\w-]+\.jpg)$/.exec(src); return '<span style="background-image:url(' + (m ? "media/img/w600/" + m[1] : src) + ')"></span>'; }).join("");
+    var el = document.createElement("section"); el.className = "enter"; el.id = "enter"; el.setAttribute("aria-label", "Welcome");
+    el.innerHTML = '<div class="enter-tiles" aria-hidden="true">' + tiles + '</div><div class="enter-core"><p class="enter-name">' + esc(S.brand) + '</p><button class="enter-btn" type="button">Enter</button></div>';
+    document.body.insertBefore(el, $("main"));
+    var root = document.documentElement; root.classList.add("entering"); window.scrollTo(0, 0);
+    var done = false;
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function go() {
+      if (done) return; done = true; el.classList.add("leaving");
+      var from = window.scrollY, to = el.offsetHeight, t0 = null, dur = 1500;
+      setTimeout(function () {
+        (function step(t) {
+          if (t0 === null) t0 = t; var k = Math.min(1, (t - t0) / dur); window.scrollTo(0, from + (to - from) * ease(k));
+          if (k < 1) requestAnimationFrame(step); else { el.remove(); root.classList.remove("entering"); window.scrollTo(0, 0); }
+        })(performance.now());
+      }, 250);
+    }
+    $(".enter-btn", el).addEventListener("click", go);
+    window.addEventListener("wheel", function (e) { if (root.classList.contains("entering") && e.deltaY > 8) go(); }, { passive: true });
+    var y0 = null; window.addEventListener("touchstart", function (e) { y0 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener("touchmove", function (e) { if (root.classList.contains("entering") && y0 !== null && y0 - e.touches[0].clientY > 24) go(); }, { passive: true });
+    return true;
   }
 
   /* ---------- boot ---------- */
   function boot() {
     if ("scrollRestoration" in history && !location.hash) history.scrollRestoration = "manual";
-    entry(); chrome(); buildViewer(); header();
+    chrome(); buildViewer(); entry(); header();
     home(); work(); gallery(); blog(); post(); project(); about(); contact();
     $$("img").forEach(function (i) { if (i.complete && i.naturalWidth) onImg(i); });
     justify(); reveal(); cursor();
     window.addEventListener("resize", queueJustify);
+    if (window.ResizeObserver) { var ro = new ResizeObserver(queueJustify); $$(".jgal").forEach(function (c) { ro.observe(c); }); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(justify);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
