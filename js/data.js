@@ -195,3 +195,22 @@ window.AWARDS = [
   { title: "Best Wedding Film", by: "Awarding body", year: "2023" },
   { title: "Featured Storyteller", by: "Publication", year: "2022" },
 ];
+
+/* Home: story image, curated "frames" composition, services */
+window.MEDIA.story = I("js-02");
+window.MEDIA.frames = [
+  { src: I("js-14"), cls: "a", alt: "Bride by the window" },
+  { src: I("js-09"), cls: "b", alt: "Bride under her veil" },
+  { src: I("js-18"), cls: "c", alt: "Bride beside a framed portrait" },
+  { src: I("js-08"), cls: "d", alt: "A couple walking hand in hand" },
+];
+window.SERVICES = [
+  { t: "Wedding Photography", d: "Candid coverage of the whole day.", img: I("js-01"), pos: "50% 30%", href: "gallery.html" },
+  { t: "Wedding Films", d: "Cinematic films with real sound.", img: I("film-poster"), pos: "30% 50%", href: "work.html" },
+  { t: "Pre-Wedding Photography", d: "Relaxed shoots in places you love.", img: I("ra-01"), pos: "50% 30%", href: "work.html" },
+  { t: "Pre-Wedding Films", d: "A short film of the two of you.", img: I("film-card"), pos: "50% 40%", href: "project.html?p=sid-and-aditi" },
+  { t: "Event Photography", d: "Sangeets, engagements, celebrations.", img: I("js-19"), pos: "50% 40%", href: "gallery.html" },
+  { t: "Event Videography", d: "Highlights that keep the energy.", img: I("js-13"), pos: "30% 50%", href: "work.html" },
+  { t: "Couple Portraits", d: "Quiet portraits in natural light.", img: I("js-12"), pos: "50% 30%", href: "gallery.html" },
+  { t: "Cinematic Films", d: "Story-led films, carefully graded.", img: I("js-06"), pos: "25% 50%", href: "work.html" },
+];

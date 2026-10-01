@@ -137,7 +137,7 @@
   function fmtDate(d) { return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); }
   function postCard(p) {
     return '<a class="post" href="post.html?p=' + p.slug + '" data-cat="' + esc(p.cat) + '" data-cursor="Read">' + box("im", p.cover, p.title, 1.5) +
-      '<div class="meta">' + esc(p.cat) + ", " + fmtDate(p.date) + "</div><h3>" + esc(p.title) + "</h3><p>" + esc(p.excerpt) + "</p></a>";
+      '<div class="txt"><div class="meta">' + esc(p.cat) + ", " + fmtDate(p.date) + "</div><h3>" + esc(p.title) + "</h3><p>" + esc(p.excerpt) + "</p></div></a>";
   }
   function projectItems(p) {
     return (p.gallery || []).map(function (s, i, a) { return { src: s, ratio: knownRatio(s) || 1.5, label: p.title, sub: p.cat + (meta(p) ? ", " + meta(p) : ""), href: "project.html?p=" + p.slug, n: (i + 1) + " / " + a.length }; });
@@ -167,10 +167,10 @@
       var list = P.slice(0, 3), cur = 0;
       sw.innerHTML = '<div class="swc"><button class="swc-btn is-prev" type="button" aria-label="Previous story">' + CHEV_L + '</button><div class="swc-track">' + list.map(function (p, i) {
         var src = p.wide || p.cover, pos = p.focus || "50% 50%";
-        return '<article class="swc-card' + (i === 0 ? " on" : "") + '" aria-label="' + esc(p.title) + '"><button class="swc-im" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open ' + esc(p.title) + ' gallery">' +
-          imgTag(src, p.title, "(min-width:1000px) 52vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</button>' +
+        return '<article class="swc-card' + (i === 0 ? " on" : "") + '" aria-label="' + esc(p.title) + '"><a class="swc-im" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="Open ' + esc(p.title) + '">' +
+          imgTag(src, p.title, "(min-width:1000px) 52vw, 100vw", i === 0).replace("<img ", '<img style="object-position:' + pos + '" ') + '</a>' +
           '<div class="swc-txt"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + "</h3><p>" + esc(p.story) + '</p>' +
-          '<div class="swc-links"><button class="link" type="button" data-i="' + i + '">View gallery</button><a class="link" href="project.html?p=' + p.slug + '">Explore the story</a></div></div></article>';
+          '<div class="swc-links"><a class="link" href="project.html?p=' + p.slug + '">View story</a></div></div></article>';
       }).join("") + '</div><div class="swc-marks" role="tablist" aria-label="Choose a story">' + list.map(function (p, i) { return '<button type="button" role="tab" data-m="' + i + '" aria-label="' + esc(p.title) + '"' + (i === 0 ? ' aria-selected="true"' : "") + "></button>"; }).join("") + '</div><button class="swc-btn is-next" type="button" aria-label="Next story">' + CHEV_R + '</button></div>';
       var cards = $$(".swc-card", sw), marks = $$(".swc-marks button", sw), last = Date.now();
       var show = function (i) { cur = (i + list.length) % list.length; last = Date.now(); cards.forEach(function (c, k) { c.classList.toggle("on", k === cur); c.setAttribute("aria-hidden", k === cur ? "false" : "true"); }); marks.forEach(function (m, k) { m.setAttribute("aria-selected", String(k === cur)); }); var nx = cards[(cur + 1) % cards.length].querySelector("img"); if (nx) nx.loading = "eager"; };
@@ -183,15 +183,19 @@
         sw.addEventListener("focusin", function () { held = true; }); sw.addEventListener("focusout", function () { held = false; last = Date.now(); });
         setInterval(function () { if (!held && inSight() && !document.hidden && !vw.classList.contains("open") && Date.now() - last >= 6500) show(cur + 1); }, 800);
       }
-      sw.addEventListener("click", function (e) {
-        var b = e.target.closest("button[data-i]"); if (!b) return;
-        var p = list[+b.getAttribute("data-i")];
-        if (p.gallery && p.gallery.length) openViewer(projectItems(p), 0, b); else if (p.films && p.films[0]) openViewer([{ embed: p.films[0].embed, label: p.title }], 0, b);
-      });
       var x0 = null; sw.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
       sw.addEventListener("touchend", function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); x0 = null; });
       cards.forEach(function (c, k) { if (k) c.setAttribute("aria-hidden", "true"); });
     }
+    var si = $("#storyImg"); if (si && M.story) si.innerHTML = imgTag(M.story, "A couple against a white wall", "(min-width:900px) 66vw, 100vw");
+    var fr = $("#frames");
+    if (fr && M.frames) {
+      var fitems = M.frames.map(function (f) { return { src: f.src, ratio: knownRatio(f.src) || 1.5, label: "Jaidev & Shaily", sub: "Weddings, Delhi", href: "project.html?p=jaidev-and-shaily" }; });
+      fr.innerHTML = M.frames.map(function (f, i) { return '<button class="fr ' + f.cls + '" type="button" data-i="' + i + '" data-cursor="View" aria-label="Open photograph: ' + esc(f.alt) + '">' + imgTag(f.src, f.alt, "(min-width:900px) 60vw, 100vw") + "</button>"; }).join("");
+      fr.addEventListener("click", function (e) { var b = e.target.closest(".fr"); if (b) openViewer(fitems, +b.getAttribute("data-i"), b); });
+    }
+    var sv = $("#services");
+    if (sv && window.SERVICES) sv.innerHTML = window.SERVICES.map(function (x) { return '<a class="svc" href="' + x.href + '"><div class="im">' + imgTag(x.img, x.t, "(min-width:900px) 22vw, 46vw").replace("<img ", '<img style="object-position:' + (x.pos || "50% 50%") + '" ') + "</div><h3>" + esc(x.t) + "</h3><p>" + esc(x.d) + "</p></a>"; }).join("");
     var all = galleryItems(), hg = $("#homeGallery");
     if (hg) { var order = M.homeGallery || [], pick = order.map(function (src) { return all.filter(function (g) { return g.src === src; })[0]; }).filter(Boolean); if (!pick.length) pick = all.slice(0, 10); hg.innerHTML = pick.map(function (g, k) { return jItem(g, all.indexOf(g), k).replace('class="jg"', 'class="jg' + (k >= 10 ? ' m-only' : '') + '"'); }).join(""); bindGallery(hg, all); }
     var jr = $("#journal"); if (jr) { var jp = POSTS.slice(0, 3); jr.innerHTML = '<div class="jfeat">' + postCard(jp[0]) + '<div class="jside">' + jp.slice(1).map(postCard).join("") + "</div></div>"; jr.classList.remove("cards"); }
@@ -214,7 +218,7 @@
     v.src = src + (START ? "#t=" + START : ""); hero.insertBefore(v, hero.firstChild.nextSibling || null);
     var inView = true, kick = function () { if (inView && v.paused && !document.hidden) v.play().catch(function () {}); };
     var restart = function () { try { v.currentTime = START; } catch (e) {} kick(); };
-    v.addEventListener("loadedmetadata", function () { if (START && v.currentTime < START) { try { v.currentTime = START; } catch (e) {} } });
+    v.addEventListener("loadedmetadata", function () { var can = v.seekable && v.seekable.length && v.seekable.end(0) > START + 0.5; if (!can) { START = 0; v.loop = true; return; } if (v.currentTime < START) { try { v.currentTime = START; } catch (e) {} } });
     v.addEventListener("ended", restart);
     v.addEventListener("timeupdate", function () { if (v.duration && v.currentTime >= v.duration - 0.08) restart(); });
     new IntersectionObserver(function (es) { inView = es[es.length - 1].isIntersecting; inView ? kick() : v.pause(); }).observe(v);
@@ -256,14 +260,14 @@
   function project() {
     var host = $("#project"); if (!host) return;
     var slug = new URLSearchParams(location.search).get("p");
-    var idx = Math.max(0, P.findIndex(function (p) { return p.slug === slug; })), p = P[idx], next = P[(idx + 1) % P.length];
+    var idx = Math.max(0, P.findIndex(function (p) { return p.slug === slug; })), p = P[idx], next = P[(idx + 1) % P.length], prev = P[(idx - 1 + P.length) % P.length];
     document.title = p.title + " — " + S.brand;
     var srcs = p.gallery || [], items = projectItems(p);
     var gal = srcs.map(function (src, i) {
       return '<button class="jg" type="button" data-r="' + (knownRatio(src) || 1.2).toFixed(4) + '" data-i="' + i + '" data-cursor="View" aria-label="Open photograph ' + (i + 1) + '">' + imgTag(src, p.title + " — photograph " + (i + 1), "(min-width:1100px) 25vw, 50vw").replace(' loading="lazy"', i < 10 ? "" : ' loading="lazy"') + "</button>";
     }).join("");
     var films = (p.films || []).map(function (f, i) {
-      return '<button class="film" type="button" data-film="' + i + '" data-cursor="Play" aria-label="Play ' + esc(f.title) + '">' + (f.poster ? imgTag(f.poster, f.title, "(min-width:800px) 50vw, 100vw") : ph(f.title)) + '<span class="play" aria-hidden="true">' + PLAY + '</span><span class="cap">' + esc(f.title) + "</span></button>";
+      return '<button class="film" type="button" data-film="' + i + '" aria-label="Play ' + esc(f.title) + '">' + (f.poster ? imgTag(f.poster, f.title, "(min-width:800px) 50vw, 100vw") : ph(f.title)) + '<span class="play" aria-hidden="true">' + PLAY + '</span><span class="cap">' + esc(f.title) + "</span></button>";
     }).join("");
     var banner = p.wide || p.cover, pos = p.focus || "50% 50%";
     host.innerHTML = '<div class="wrap pj-intro"><header class="pj-head"><p class="label">' + esc(p.cat) + '</p><h1 class="title">' + esc(p.title) + '</h1><div class="pj-credits">' + (meta(p) ? "<span>" + esc(meta(p)) + "</span>" : "") + '<span><b>Photography</b> ' + esc(p.photo) + '</span><span><b>Videography</b> ' + esc(p.video) + '</span></div></header></div>' +
@@ -271,7 +275,7 @@
       '<div class="wrap"><p class="pj-story">' + esc(p.story) + '</p>' +
       '<div class="jgal" id="gallery">' + gal + "</div></div>" +
       (films ? '<section class="wrap sec"><div class="sec-head"><h2 class="title">Film</h2></div><div class="films">' + films + "</div></section>" : "") +
-      '<a class="next-story" href="project.html?p=' + next.slug + '"><span class="label">Next story</span><div class="title">' + esc(next.title) + "</div></a>";
+      '<nav class="pj-nav wrap" aria-label="Stories"><a class="pj-prev" href="project.html?p=' + prev.slug + '"><span class="label">Previous</span><span class="pj-nt">' + esc(prev.title) + '</span></a><a class="pj-back link" href="index.html#work">Back to selected work</a><a class="pj-next" href="project.html?p=' + next.slug + '"><span class="label">Next</span><span class="pj-nt">' + esc(next.title) + "</span></a></nav>";
     host.addEventListener("click", function (e) {
       var g = e.target.closest(".jg"); if (g) return openViewer(items.map(function (it) { return Object.assign({}, it, { href: "" }); }), +g.getAttribute("data-i"), g);
       var c = e.target.closest(".pj-cover"); if (c && items.length) return openViewer(items.map(function (it) { return Object.assign({}, it, { href: "" }); }), 0, c);
@@ -297,9 +301,7 @@
     var f = $("#enquiry"); if (!f) return;
     var rules = {
       name: function (v) { return v.trim().length > 1 || "Please tell us your name."; },
-      phone: function (v) { return v.replace(/\D/g, "").length >= 8 || "Enter a valid phone / WhatsApp number."; },
-      email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || "Enter a valid email address."; },
-      type: function (v) { return !!v || "Choose the type of event."; }
+      contact: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || v.replace(/\D/g, "").length >= 8 || "Enter a valid email or phone number."; }
     };
     function check(inp) { var r = rules[inp.name]; if (!r) return true; var res = r(inp.value), b = inp.closest(".field"), ok = res === true; b.classList.toggle("bad", !ok); inp.setAttribute("aria-invalid", String(!ok)); if (!ok) b.querySelector(".err").textContent = res; return ok; }
     $$("input,select,textarea", f).forEach(function (i) { i.addEventListener("blur", function () { check(i); }); i.addEventListener("input", function () { if (i.closest(".bad")) check(i); }); });
@@ -313,10 +315,10 @@
       if (S.formEndpoint) {
         fetch(S.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(d) })
           .then(function (r) { if (!r.ok) throw 0; done(); })
-          .catch(function () { btn.disabled = false; btn.textContent = "Submit Enquiry"; alert("Sorry, that didn't send. Please use WhatsApp or email instead."); });
+          .catch(function () { btn.disabled = false; btn.textContent = "Send"; alert("Sorry, that didn't send. Please use WhatsApp or email instead."); });
       } else {
-        var body = ["Name: " + d.name, "Phone/WhatsApp: " + d.phone, "Email: " + d.email, "Event date: " + (d.date || "-"), "Location: " + (d.location || "-"), "Event type: " + d.type, "", d.message || ""].join("\n");
-        location.href = "mailto:" + S.email + "?subject=" + encodeURIComponent("Enquiry: " + d.type + " - " + d.name) + "&body=" + encodeURIComponent(body);
+        var body = ["Name: " + d.name, "Email or phone: " + d.contact, "", d.message || ""].join("\n");
+        location.href = "mailto:" + S.email + "?subject=" + encodeURIComponent("Enquiry from " + d.name) + "&body=" + encodeURIComponent(body);
         done();
       }
     });
@@ -345,7 +347,7 @@
     $("#vwPrev").hidden = $("#vwNext").hidden = vItems.length < 2;
     if (it.embed !== undefined) {
       layers.forEach(function (l) { l.classList.remove("on"); });
-      emb.innerHTML = it.embed ? (/\.(mp4|webm|mov)(\?|$)/i.test(it.embed) ? '<video src="' + esc(it.embed) + '" controls autoplay playsinline></video>' : '<iframe src="' + esc(it.embed) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' + esc(it.label || "Film") + '"></iframe>') : '<p class="vw-none">Add the film in js/data.js</p>';
+      emb.innerHTML = it.embed ? (/\.(mp4|webm|mov)(\?|$)/i.test(it.embed) ? '<video src="' + esc(it.embed) + '" controls autoplay playsinline preload="metadata" controlsList="nodownload"></video>' : '<iframe src="' + esc(it.embed) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' + esc(it.label || "Film") + '"></iframe>') : '<p class="vw-none">Add the film in js/data.js</p>';
       emb.classList.add("on"); return;
     }
     emb.classList.remove("on"); emb.innerHTML = "";
@@ -355,7 +357,7 @@
     if (nxt.complete && nxt.naturalWidth) nxt.onload();
     [1, -1].forEach(function (d) { var n = vItems[(vIdx + d + vItems.length) % vItems.length]; if (n && n.src) { var im = new Image(); im.src = cdn(n.src, 2000); } });
   }
-  function openViewer(items, i, opener) { vItems = items; vIdx = i || 0; vOpener = opener; $$(".vw-img", vw).forEach(function (l) { l.classList.remove("on"); l.removeAttribute("src"); }); showViewer(); vw.classList.add("open"); document.body.style.overflow = "hidden"; $("#vwClose").focus(); }
+  function openViewer(items, i, opener) { var cu = $("#cursor"); if (cu) cu.classList.remove("on"); vItems = items; vIdx = i || 0; vOpener = opener; $$(".vw-img", vw).forEach(function (l) { l.classList.remove("on"); l.removeAttribute("src"); }); showViewer(); vw.classList.add("open"); document.body.style.overflow = "hidden"; $("#vwClose").focus(); }
   function closeViewer() { vw.classList.remove("open"); $("#vwEmbed").innerHTML = ""; document.body.style.overflow = ""; if (vOpener && vOpener.focus) vOpener.focus(); }
   function stepViewer(d) { vIdx = (vIdx + d + vItems.length) % vItems.length; showViewer(); }
 

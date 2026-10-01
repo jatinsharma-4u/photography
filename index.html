@@ -16,11 +16,11 @@
 <link rel="preload" href="media/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="media/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(min-width:721px)" fetchpriority="high">
-<link rel="preload" as="image" href="media/img/hero-poster-m.jpg" media="(max-width:720px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=120">
-<script defer src="js/dims.js?v=120"></script>
-<script defer src="js/data.js?v=120"></script>
-<script defer src="js/main.js?v=120"></script>
+<link rel="preload" as="image" href="media/img/hero-poster.jpg" media="(max-width:720px)" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css?v=131">
+<script defer src="js/dims.js?v=131"></script>
+<script defer src="js/data.js?v=131"></script>
+<script defer src="js/main.js?v=131"></script>
 </head>
 <body data-page="home" id="top">
 <main>
@@ -34,51 +34,52 @@
   <p class="center" style="margin-top:clamp(48px,6vw,90px)"><a class="link" href="work.html">View all stories</a></p>
 </section>
 
-<section class="sec wrap" style="border-top:1px solid var(--line)">
+<section class="sec wrap" id="story">
+  <div class="story-grid">
+    <div class="story-im" id="storyImg"></div>
+    <div class="story-txt">
+      <p class="label">About</p>
+      <h2>I don&rsquo;t stage your story. I follow it.</h2>
+      <p>Natural light, real emotion, very little posing.</p>
+      <a class="link" href="about.html" style="margin-top:8px">Hi, I&rsquo;m Rohit</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap" style="padding-top:0">
   <div class="sec-head"><p class="label">Gallery</p><h2 class="title">Moments, kept</h2></div>
   <div class="jgal" id="homeGallery"></div>
   <p class="center" style="margin-top:44px"><a class="link" href="gallery.html">View full gallery</a></p>
 </section>
 
-<section class="sec wrap" style="border-top:1px solid var(--line)">
-  <div class="split">
-    <div class="im" data-ar style="--ar:.667"><div data-portrait style="display:contents"></div></div>
-    <div class="copy">
-      <p class="label">About</p>
-      <h2 class="title left">Hi, I&rsquo;m Rohit</h2>
-      <p>I&rsquo;m a wedding photographer and filmmaker, and Journeys by Rohit is where I keep the stories people trust me with.</p>
-      <p>A wedding is a thousand small moments: a glance across a crowded room, a hand that won&rsquo;t let go, a laugh that arrives before the vows. I don&rsquo;t stage your story. I follow it. Natural light, real emotion, very little posing.</p>
-      <a class="link" href="about.html">More about me</a>
-    </div>
-  </div>
+<section class="sec wrap">
+  <div class="sec-head"><p class="label">Frames</p><h2 class="title">Told in light</h2></div>
+  <div class="frames" id="frames"></div>
+  <div class="frames-cap"><p>Quiet pictures that carry the rest of the day.</p><a class="link" href="gallery.html">Explore the gallery</a></div>
 </section>
 
-<section class="sec wrap" style="border-top:1px solid var(--line)">
+<section class="sec wrap" style="padding-top:0">
+  <div class="sec-head"><p class="label">Services</p><h2 class="title">What I do</h2></div>
+  <div class="svc-grid" id="services"></div>
+</section>
+
+<section class="sec wrap" style="padding-top:0">
+  <div class="sec-head"><p class="label">Film</p><h2 class="title">Sid &amp; Aditi</h2></div>
+  <div class="reel" id="reel" role="button" tabindex="0" aria-label="Play the pre-wedding film"></div>
+  <div class="film-cap"><p>A pre-wedding story shot like a short film.</p></div>
+</section>
+
+<section class="sec wrap" style="padding-top:0">
   <div class="sec-head"><p class="label">Notes &amp; stories</p><h2 class="title">Journal</h2></div>
-  <div class="cards" id="journal"></div>
-  <p class="center"><a class="link" href="blog.html">All articles</a></p>
-</section>
-
-<section class="sec wrap" style="border-top:1px solid var(--line)">
-  <div class="sec-head"><p class="label">Film</p></div>
-  <div class="reel" id="reel" role="button" tabindex="0" aria-label="Play the pre-wedding film" data-cursor="Play"></div>
-  <div class="film-cap"><h3>Sid &amp; Aditi</h3><p>A pre-wedding story shot like a short film: walks through old streets, easy laughter and a couple who stopped noticing the camera.</p></div>
-</section>
-
-<section class="sec wrap" style="border-top:1px solid var(--line)">
-  <div class="sec-head"><h2 class="title">Photography &amp; film</h2><p class="lead">One calm team, from the first call to the final delivery.</p></div>
-  <div class="cols3">
-    <article><h3>Wedding photography</h3><p>Candid, editorial coverage of the ceremonies, the portraits and everything in between. Delivered as a fully retouched online gallery and a printed album.</p></article>
-    <article><h3>Wedding films</h3><p>Cinematic films with real sound: vows, speeches, laughter and music. A teaser, a highlight film and a full-length feature.</p></article>
-    <article><h3>Pre-weddings &amp; engagements</h3><p>Destination shoots, engagements and private celebrations, with the same story-first approach.</p></article>
-  </div>
+  <div id="journal"></div>
+  <p class="center" style="margin-top:44px"><a class="link" href="blog.html">All articles</a></p>
 </section>
 
 <section class="sec wrap cta">
   <p class="label" style="margin-bottom:14px">Enquire</p>
   <h2 class="title">Let&rsquo;s begin your journey</h2>
-  <p class="lead">Share a few details and I&rsquo;ll get back to you personally.</p>
-  <p style="margin-top:26px"><a class="btn" href="contact.html">Tell me your story</a></p>
+  <p class="lead">Tell me about your day.</p>
+  <p style="margin-top:26px"><a class="btn" href="contact.html">Get in touch</a></p>
 </section>
 </main>
 <div id="footer"></div>

@@ -7,7 +7,7 @@ Static site: plain HTML, CSS and JavaScript. No build step.
 ## Run it locally
 
 ```bash
-python -m http.server 5173
+python server.py 5173
 ```
 
 Then open http://localhost:5173
