@@ -27,8 +27,12 @@
   }
   function srcsetOf(src) {
     var m = /^media\/img\/([\w-]+\.jpg)$/.exec(src || ""); if (!m || /^hero-poster/.test(m[1])) return "";
-    var C = S.cloudinary; if (C && C.cloud) return ' srcset="' + cdn(src, 600) + " 600w, " + cdn(src, 1000) + " 1000w, " + cdn(src, 1600) + ' 1600w"';
-    return ' srcset="media/img/w600/' + m[1] + " 600w, media/img/w1000/" + m[1] + " 1000w, " + src + ' 1600w"';
+    var C = S.cloudinary; if (C && C.cloud) return ' srcset="' + cdn(src, 600) + " 600w, " + cdn(src, 1000) + " 1000w, " + cdn(src, 1600) + " 1600w, " + cdn(src, 2400) + ' 2400w"';
+    var d = window.DIMS && window.DIMS[m[1]], ow = d ? d[0] : 1600, set = ["media/img/w600/" + m[1] + " 600w"];
+    if (ow > 1000) set.push("media/img/w1000/" + m[1] + " 1000w");
+    if (ow > 1600) set.push("media/img/w1600/" + m[1] + " 1600w");
+    set.push(src + " " + ow + "w");
+    return ' srcset="' + set.join(", ") + '"';
   }
   function imgTag(src, alt, sizes, eager) {
     var ss = srcsetOf(src);
@@ -162,7 +166,7 @@
     return out;
   }
   function jItem(g, i, n) {
-    return '<button class="jg" type="button" data-r="' + g.r.toFixed(4) + '" data-cat="' + esc(g.cat) + '" data-i="' + i + '" data-cursor="View" aria-label="Open photograph: ' + esc(g.title) + '">' + imgTag(g.src, g.title + (g.sub ? " — " + g.sub : ""), "(min-width:1100px) 25vw, 50vw").replace(' loading="lazy"', (n || 0) < 10 ? "" : ' loading="lazy"') + "</button>";
+    return '<button class="jg" type="button" data-r="' + g.r.toFixed(4) + '" data-cat="' + esc(g.cat) + '" data-i="' + i + '" data-cursor="View" aria-label="Open photograph: ' + esc(g.title) + '">' + imgTag(g.src, g.title + (g.sub ? " — " + g.sub : ""), "(min-width:1100px) 38vw, 70vw").replace(' loading="lazy"', (n || 0) < 10 ? "" : ' loading="lazy"') + "</button>";
   }
   function bindGallery(grid, all) {
     grid.addEventListener("click", function (e) {
@@ -185,7 +189,7 @@
       var tile = function (p, i) {
         var src = p.card || p.wide || p.cover, r = knownRatio(src) || 1.5;
         return '<a class="sw6 p' + (i + 1) + '" style="--r:' + r.toFixed(3) + '" href="project.html?p=' + p.slug + '" data-cursor="View" aria-label="' + esc(p.title) + '"><div class="im" style="aspect-ratio:' + r.toFixed(3) + '">' +
-          imgTag(src, p.title, i === 0 ? "(min-width:1000px) 64vw, 100vw" : "(min-width:1000px) 30vw, 50vw", i < 2) +
+          imgTag(src, p.title, "(min-width:900px) 66vw, 100vw", i < 2) +
           '</div><div class="tx"><p class="label">' + esc([p.cat, meta(p)].filter(Boolean).join(", ")) + "</p><h3>" + esc(p.title) + '</h3><span class="go">View project ' + ARROW + "</span></div></a>";
       };
       /* one tight composition: lead story beside the intro, then rows whose tiles share a height (width follows each photo's own ratio) */
@@ -282,7 +286,7 @@
     if (srcs.length > 6) { for (var kk = srcs.length - 1; kk >= 0; kk--) { if ((knownRatio(srcs[kk]) || 1) >= 1.3) { closeIdx = kk; break; } } }
     var gal = srcs.map(function (src, i) {
       if (i === closeIdx) return "";
-      return '<button class="jg" type="button" data-r="' + (knownRatio(src) || 1.2).toFixed(4) + '" data-i="' + i + '" data-cursor="View" aria-label="Open photograph ' + (i + 1) + '">' + imgTag(src, p.title + " — photograph " + (i + 1), "(min-width:1100px) 25vw, 50vw").replace(' loading="lazy"', i < 10 ? "" : ' loading="lazy"') + "</button>";
+      return '<button class="jg" type="button" data-r="' + (knownRatio(src) || 1.2).toFixed(4) + '" data-i="' + i + '" data-cursor="View" aria-label="Open photograph ' + (i + 1) + '">' + imgTag(src, p.title + " — photograph " + (i + 1), "(min-width:1100px) 38vw, 70vw").replace(' loading="lazy"', i < 10 ? "" : ' loading="lazy"') + "</button>";
     }).join("");
     var films = (p.films || []).map(function (f, i) {
       return '<button class="film" type="button" data-film="' + i + '" aria-label="Play ' + esc(f.title) + '">' + (f.poster ? imgTag(f.poster, f.title, "(min-width:800px) 50vw, 100vw") : ph(f.title)) + '<span class="play" aria-hidden="true">' + PLAY + '</span><span class="cap">' + esc(f.title) + "</span></button>";
